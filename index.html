@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MARVAX.FUN</title>
+  <meta name="description" content="Marvax.Fun services, OpenAI-compatible access, and a clean public landing page." />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070916;
+      --bg2: #0d1224;
+      --panel: rgba(10, 14, 28, 0.72);
+      --line: rgba(74, 222, 255, 0.22);
+      --text: #f3f6ff;
+      --muted: #a7b0c8;
+      --cyan: #35f2ff;
+      --pink: #ff4fd8;
+      --violet: #8b5cf6;
+      --glow: 0 0 24px rgba(53, 242, 255, 0.22), 0 0 48px rgba(255, 79, 216, 0.10);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      min-height: 100vh;
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(53,242,255,.12), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(255,79,216,.12), transparent 28%),
+        linear-gradient(180deg, var(--bg2), var(--bg));
+    }
+    a { color: inherit; }
+    .shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0 8px;
+    }
+    .brand {
+      letter-spacing: .22em; text-transform: uppercase; font-weight: 800; font-size: 13px;
+      color: var(--cyan); text-shadow: 0 0 20px rgba(53,242,255,.35);
+    }
+    .nav-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .nav-links a {
+      text-decoration: none; font-size: 14px; color: var(--muted);
+      border: 1px solid transparent; border-radius: 999px; padding: 8px 12px;
+    }
+    .nav-links a:hover { color: var(--text); border-color: var(--line); background: rgba(255,255,255,.02); }
+    .hero {
+      padding: 72px 0 42px;
+      display: grid; gap: 26px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px;
+      width: fit-content; color: var(--muted); background: rgba(8,10,18,.45); backdrop-filter: blur(10px);
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 999px; background: #4ade80;
+      box-shadow: 0 0 16px #4ade80;
+    }
+    h1 {
+      margin: 0; font-size: clamp(42px, 9vw, 92px); line-height: .95; letter-spacing: -.04em;
+      text-shadow: 0 0 24px rgba(53,242,255,.18), 0 0 56px rgba(255,79,216,.08);
+    }
+    .hero p {
+      max-width: 760px; margin: 0; color: var(--muted); font-size: clamp(17px, 2.2vw, 20px);
+    }
+    .actions {
+      display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; padding: 0 18px; border-radius: 16px; text-decoration: none;
+      border: 1px solid var(--line); background: rgba(8,10,18,.55); color: var(--text);
+      box-shadow: var(--glow);
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(53,242,255,.18), rgba(139,92,246,.22));
+      border-color: rgba(53,242,255,.34);
+      font-weight: 700;
+    }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px;
+      padding: 22px 0 32px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--glow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); }
+    .endpoint {
+      margin-top: 16px; padding: 16px 18px; border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.24);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all;
+      color: #dffbff;
+    }
+    .section-title {
+      margin: 22px 0 10px; text-transform: uppercase; letter-spacing: .18em;
+      font-size: 12px; color: var(--cyan);
+    }
+    .footer {
+      padding: 18px 0 42px; color: var(--muted); font-size: 14px;
+    }
+    .footer a { color: var(--text); }
+    @media (max-width: 720px) {
+      .nav { gap: 14px; flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="nav">
+      <div class="brand">MARVAX.FUN</div>
+      <nav class="nav-links">
+        <a href="https://openai.marvax.fun/v1">OpenAI API</a>
+        <a href="https://marvax.fun/openclaw">OpenClaw</a>
+        <a href="https://marvax.fun/privacy">Privacy</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="dot"></span><span>Public static landing</span></div>
+        <h1>Marvax.Fun Services</h1>
+        <p>
+          A clean public entry point for Marvax.Fun, focused on OpenAI-compatible access,
+          lightweight discovery, and a simple landing that can live on GitHub Pages.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="https://openai.marvax.fun/v1">OpenAI endpoint</a>
+          <a class="btn" href="https://github.com/m4rv4x/marvax-fun-site">GitHub repo</a>
+        </div>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <div class="section-title">Service</div>
+          <h2>OpenAI-compatible access</h2>
+          <p>Use the public Marvax endpoint with tools and apps that support the OpenAI format.</p>
+          <div class="endpoint">https://openai.marvax.fun/v1</div>
+        </section>
+
+        <section class="card">
+          <div class="section-title">Usage</div>
+          <h2>Static public landing</h2>
+          <p>This version is intentionally static, fast, simple, and easy to host for free on GitHub Pages.</p>
+        </section>
+
+        <section class="card">
+          <div class="section-title">Notes</div>
+          <h2>Dynamic features stay elsewhere</h2>
+          <p>User space, OAuth, metering, and backend proxy logic remain separate from this static landing.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      Marvax.Fun, static public landing. Dynamic services remain external where needed.
+    </footer>
+  </div>
+</body>
+</html>
