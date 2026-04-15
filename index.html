@@ -8,85 +8,43 @@
   <link rel="preload" as="image" href="/hero-bg.jpg" />
   <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
   <style>
-    .marvax-extra-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 0 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      color: #fff;
-      text-decoration: none;
-      font: 600 14px/1 Inter, system-ui, sans-serif;
-      transition: border-color .2s ease, color .2s ease, background .2s ease;
-    }
-    .marvax-extra-link:hover {
-      border-color: rgba(53,242,255,.45);
-      color: #35f2ff;
-      background: rgba(53,242,255,.08);
-    }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script>
     (() => {
-      const LINKS = [
-        { key: 'blog', label: 'Blog', href: 'https://blog.marvax.fun' },
-        { key: 'office', label: 'Office', href: 'https://office.marvax.fun' },
+      const REPLACEMENTS = [
+        { from: 'portal section', to: 'Blog', href: 'https://blog.marvax.fun' },
+        { from: 'docs section', to: 'Office', href: 'https://office.marvax.fun' },
       ];
-      const CTA_TEXT = new Set(['portal section', 'docs section']);
-      const NAV_TEXT = new Set(['portal', 'docs', 'status', 'contact', 'home', 'launch', 'openclaw', 'webchat', 'pricing', 'privacy', 'user', 'login', 'github', 'discord']);
 
-      function findHostByText(textSet, selector, topLimit = Infinity) {
-        const nodes = Array.from(document.querySelectorAll(selector)).filter((node) => {
-          const text = (node.textContent || '').trim().toLowerCase();
-          return textSet.has(text);
-        });
-        if (nodes.length < 2) return null;
-        const parents = new Map();
-        for (const node of nodes) {
-          const parent = node.parentElement;
-          if (!parent) continue;
-          const rect = typeof parent.getBoundingClientRect === 'function' ? parent.getBoundingClientRect() : null;
-          if (rect && rect.top > topLimit) continue;
-          parents.set(parent, (parents.get(parent) || 0) + 1);
+      function replaceButtons() {
+        const buttons = Array.from(document.querySelectorAll('button, a'));
+        let replaced = 0;
+        for (const btn of buttons) {
+          const text = (btn.textContent || '').trim().toLowerCase();
+          const match = REPLACEMENTS.find(r => r.from === text);
+          if (match && !btn.dataset.marvaxReplaced) {
+            btn.textContent = match.to;
+            btn.href = match.href;
+            btn.target = '_blank';
+            btn.rel = 'noopener noreferrer';
+            btn.dataset.marvaxReplaced = '1';
+            replaced++;
+          }
         }
-        return [...parents.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || null;
-      }
-
-      function findLinkHost() {
-        return findHostByText(CTA_TEXT, 'button, a', 1000) || findHostByText(NAV_TEXT, 'a[href]', 220);
-      }
-
-      function ensureLinks() {
-        const host = findLinkHost();
-        if (!host) return false;
-        const sample = host.querySelector('a[href]');
-        for (const link of LINKS) {
-          if (host.querySelector(`[data-marvax-link="${link.key}"]`)) continue;
-          const a = document.createElement('a');
-          a.href = link.href;
-          a.textContent = link.label;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.dataset.marvaxLink = link.key;
-          a.className = sample?.className || 'marvax-extra-link';
-          if (!a.className) a.className = 'marvax-extra-link';
-          host.appendChild(a);
-        }
-        return true;
+        return replaced === REPLACEMENTS.length;
       }
 
       function boot() {
-        if (ensureLinks()) return;
+        if (replaceButtons()) return;
         let tries = 0;
         const timer = setInterval(() => {
           tries += 1;
-          if (ensureLinks() || tries > 80) clearInterval(timer);
+          if (replaceButtons() || tries > 80) clearInterval(timer);
         }, 250);
-        const observer = new MutationObserver(() => ensureLinks());
+        const observer = new MutationObserver(() => replaceButtons());
         observer.observe(document.documentElement, { childList: true, subtree: true });
         setTimeout(() => observer.disconnect(), 20000);
       }
