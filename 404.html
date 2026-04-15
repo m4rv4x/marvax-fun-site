@@ -8,11 +8,24 @@
   <link rel="preload" as="image" href="/hero-bg.jpg" />
   <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
   <style>
-    .blog-link {
+    .top-links-panel {
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10, 14, 28, .72);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 24px rgba(53,242,255,.14);
+    }
+    .top-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -20,21 +33,23 @@
       padding: 0 14px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.18);
-      background: rgba(10, 14, 28, .72);
       color: #fff;
       text-decoration: none;
       font: 600 14px/1 Inter, system-ui, sans-serif;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 24px rgba(53,242,255,.14);
+      transition: border-color .2s ease, color .2s ease, background .2s ease;
     }
-    .blog-link:hover {
+    .top-link:hover {
       border-color: rgba(53,242,255,.45);
       color: #35f2ff;
+      background: rgba(53,242,255,.08);
     }
   </style>
 </head>
 <body>
-  <a class="blog-link" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Blog</a>
+  <div class="top-links-panel">
+    <a class="top-link" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Blog</a>
+    <a class="top-link" href="https://office.marvax.fun" target="_blank" rel="noopener noreferrer">Office</a>
+  </div>
   <div id="root"></div>
   <script src="/assets/index-CoefIrm6.js" type="module"></script>
 </body>
