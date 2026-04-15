@@ -36,35 +36,32 @@
         { key: 'blog', label: 'Blog', href: 'https://blog.marvax.fun' },
         { key: 'office', label: 'Office', href: 'https://office.marvax.fun' },
       ];
+      const CTA_TEXT = new Set(['portal section', 'docs section']);
       const NAV_TEXT = new Set(['portal', 'docs', 'status', 'contact', 'home', 'launch', 'openclaw', 'webchat', 'pricing', 'privacy', 'user', 'login', 'github', 'discord']);
 
-      function findTopMenuHost() {
-        const anchors = Array.from(document.querySelectorAll('a[href]')).filter((a) => {
-          const text = (a.textContent || '').trim().toLowerCase();
-          return NAV_TEXT.has(text);
+      function findHostByText(textSet, selector, topLimit = Infinity) {
+        const nodes = Array.from(document.querySelectorAll(selector)).filter((node) => {
+          const text = (node.textContent || '').trim().toLowerCase();
+          return textSet.has(text);
         });
-        let best = null;
-        let bestScore = -1;
-        for (const anchor of anchors) {
-          let node = anchor.parentElement;
-          for (let depth = 0; node && depth < 3; depth += 1, node = node.parentElement) {
-            const rect = typeof node.getBoundingClientRect === 'function' ? node.getBoundingClientRect() : null;
-            const topBonus = rect && rect.top < 180 ? 20 : 0;
-            const textCount = Array.from(node.querySelectorAll('a[href]')).filter((el) => NAV_TEXT.has((el.textContent || '').trim().toLowerCase())).length;
-            const classText = `${node.className || ''} ${node.parentElement?.className || ''}`.toLowerCase();
-            const classBonus = /(nav|menu|header|panel|top|links)/.test(classText) ? 10 : 0;
-            const score = textCount * 10 + topBonus + classBonus;
-            if (score > bestScore) {
-              best = node;
-              bestScore = score;
-            }
-          }
+        if (nodes.length < 2) return null;
+        const parents = new Map();
+        for (const node of nodes) {
+          const parent = node.parentElement;
+          if (!parent) continue;
+          const rect = typeof parent.getBoundingClientRect === 'function' ? parent.getBoundingClientRect() : null;
+          if (rect && rect.top > topLimit) continue;
+          parents.set(parent, (parents.get(parent) || 0) + 1);
         }
-        return best;
+        return [...parents.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+      }
+
+      function findLinkHost() {
+        return findHostByText(CTA_TEXT, 'button, a', 1000) || findHostByText(NAV_TEXT, 'a[href]', 220);
       }
 
       function ensureLinks() {
-        const host = findTopMenuHost();
+        const host = findLinkHost();
         if (!host) return false;
         const sample = host.querySelector('a[href]');
         for (const link of LINKS) {
