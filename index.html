@@ -8,6 +8,67 @@
   <link rel="preload" as="image" href="/hero-bg.jpg" />
   <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
   <style>
+    .marvax-status {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 1200px;
+    }
+    .marvax-status-header {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .marvax-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .marvax-status-item {
+      background: rgba(20, 20, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .marvax-status-name {
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+    .marvax-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .marvax-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .marvax-status-dot.up { background: #34d399; }
+    .marvax-status-dot.down { background: #f87171; }
+    .marvax-status-dot.checking {
+      background: #6b7280;
+      animation: marvax-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes marvax-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .marvax-status-text.up { color: #34d399; }
+    .marvax-status-text.down { color: #f87171; }
+    .marvax-status-text.checking { color: #6b7280; }
   </style>
 </head>
 <body>
@@ -50,14 +111,92 @@
         return replaced === REPLACEMENTS.length;
       }
 
+      function injectStatusSection() {
+        if (document.querySelector('.marvax-status')) return true;
+        
+        const footer = document.querySelector('footer');
+        if (!footer) return false;
+        
+        const statusSection = document.createElement('div');
+        statusSection.className = 'marvax-status';
+        statusSection.innerHTML = `
+          <div class="marvax-status-header">System Status</div>
+          <div class="marvax-status-grid" id="marvax-status-grid">
+            <div class="marvax-status-item">
+              <span class="marvax-status-name">API</span>
+              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            </div>
+            <div class="marvax-status-item">
+              <span class="marvax-status-name">User Portal</span>
+              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            </div>
+            <div class="marvax-status-item">
+              <span class="marvax-status-name">Blog</span>
+              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            </div>
+            <div class="marvax-status-item">
+              <span class="marvax-status-name">Office</span>
+              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            </div>
+          </div>
+        `;
+        
+        footer.parentNode.insertBefore(statusSection, footer);
+        checkServices();
+        return true;
+      }
+      
+      async function checkService(url) {
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 5000);
+          await fetch(url, { method: 'HEAD', signal: controller.signal, mode: 'no-cors' });
+          clearTimeout(timeout);
+          return 'up';
+        } catch {
+          return 'down';
+        }
+      }
+      
+      async function checkServices() {
+        const services = [
+          { name: 'API', url: 'https://api.marvax.fun/health' },
+          { name: 'User Portal', url: 'https://api.marvax.fun/user' },
+          { name: 'Blog', url: 'https://blog.marvax.fun' },
+          { name: 'Office', url: 'https://office.marvax.fun' }
+        ];
+        
+        for (const service of services) {
+          const status = await checkService(service.url);
+          const items = document.querySelectorAll('.marvax-status-item');
+          for (const item of items) {
+            if (item.querySelector('.marvax-status-name').textContent === service.name) {
+              const dot = item.querySelector('.marvax-status-dot');
+              const text = item.querySelector('.marvax-status-text');
+              dot.className = `marvax-status-dot ${status}`;
+              text.className = `marvax-status-text ${status}`;
+              text.textContent = status === 'up' ? 'Operational' : 'Down';
+            }
+          }
+        }
+      }
+
       function boot() {
-        if (replaceButtons()) return;
+        replaceButtons();
+        injectStatusSection();
+        
         let tries = 0;
         const timer = setInterval(() => {
           tries += 1;
-          if (replaceButtons() || tries > 80) clearInterval(timer);
+          replaceButtons();
+          injectStatusSection();
+          if (tries > 80) clearInterval(timer);
         }, 250);
-        const observer = new MutationObserver(() => replaceButtons());
+        
+        const observer = new MutationObserver(() => {
+          replaceButtons();
+          injectStatusSection();
+        });
         observer.observe(document.documentElement, { childList: true, subtree: true });
         setTimeout(() => observer.disconnect(), 20000);
       }
