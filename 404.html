@@ -25,12 +25,25 @@
         for (const btn of buttons) {
           const text = (btn.textContent || '').trim().toLowerCase();
           const match = REPLACEMENTS.find(r => r.from === text);
-          if (match && !btn.dataset.marvaxReplaced) {
-            btn.textContent = match.to;
-            btn.href = match.href;
-            btn.target = '_blank';
-            btn.rel = 'noopener noreferrer';
-            btn.dataset.marvaxReplaced = '1';
+          if (match && !btn.dataset.marvaxReplaced && !btn.closest('[data-marvax-replaced="1"]')) {
+            if (btn.tagName.toLowerCase() === 'button') {
+              // Remplacer le button par un lien <a>
+              const a = document.createElement('a');
+              a.textContent = match.to;
+              a.href = match.href;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              a.className = btn.className;
+              a.dataset.marvaxReplaced = '1';
+              btn.parentNode.replaceChild(a, btn);
+            } else {
+              // Modifier le lien existant
+              btn.textContent = match.to;
+              btn.href = match.href;
+              btn.target = '_blank';
+              btn.rel = 'noopener noreferrer';
+              btn.dataset.marvaxReplaced = '1';
+            }
             replaced++;
           }
         }
