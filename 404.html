@@ -8,24 +8,7 @@
   <link rel="preload" as="image" href="/hero-bg.jpg" />
   <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
   <style>
-    .top-links-panel {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(10, 14, 28, .72);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 24px rgba(53,242,255,.14);
-    }
-    .top-link {
+    .marvax-extra-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -38,7 +21,7 @@
       font: 600 14px/1 Inter, system-ui, sans-serif;
       transition: border-color .2s ease, color .2s ease, background .2s ease;
     }
-    .top-link:hover {
+    .marvax-extra-link:hover {
       border-color: rgba(53,242,255,.45);
       color: #35f2ff;
       background: rgba(53,242,255,.08);
@@ -46,11 +29,78 @@
   </style>
 </head>
 <body>
-  <div class="top-links-panel">
-    <a class="top-link" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Blog</a>
-    <a class="top-link" href="https://office.marvax.fun" target="_blank" rel="noopener noreferrer">Office</a>
-  </div>
   <div id="root"></div>
+  <script>
+    (() => {
+      const LINKS = [
+        { key: 'blog', label: 'Blog', href: 'https://blog.marvax.fun' },
+        { key: 'office', label: 'Office', href: 'https://office.marvax.fun' },
+      ];
+      const NAV_TEXT = new Set(['home', 'launch', 'openclaw', 'webchat', 'pricing', 'status', 'privacy', 'user', 'login', 'portal', 'github', 'discord']);
+
+      function findTopMenuHost() {
+        const anchors = Array.from(document.querySelectorAll('a[href]')).filter((a) => {
+          const text = (a.textContent || '').trim().toLowerCase();
+          return NAV_TEXT.has(text);
+        });
+        let best = null;
+        let bestScore = -1;
+        for (const anchor of anchors) {
+          let node = anchor.parentElement;
+          for (let depth = 0; node && depth < 3; depth += 1, node = node.parentElement) {
+            const rect = typeof node.getBoundingClientRect === 'function' ? node.getBoundingClientRect() : null;
+            const topBonus = rect && rect.top < 180 ? 20 : 0;
+            const textCount = Array.from(node.querySelectorAll('a[href]')).filter((el) => NAV_TEXT.has((el.textContent || '').trim().toLowerCase())).length;
+            const classText = `${node.className || ''} ${node.parentElement?.className || ''}`.toLowerCase();
+            const classBonus = /(nav|menu|header|panel|top|links)/.test(classText) ? 10 : 0;
+            const score = textCount * 10 + topBonus + classBonus;
+            if (score > bestScore) {
+              best = node;
+              bestScore = score;
+            }
+          }
+        }
+        return best;
+      }
+
+      function ensureLinks() {
+        const host = findTopMenuHost();
+        if (!host) return false;
+        const sample = host.querySelector('a[href]');
+        for (const link of LINKS) {
+          if (host.querySelector(`[data-marvax-link="${link.key}"]`)) continue;
+          const a = document.createElement('a');
+          a.href = link.href;
+          a.textContent = link.label;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.dataset.marvaxLink = link.key;
+          a.className = sample?.className || 'marvax-extra-link';
+          if (!a.className) a.className = 'marvax-extra-link';
+          host.appendChild(a);
+        }
+        return true;
+      }
+
+      function boot() {
+        if (ensureLinks()) return;
+        let tries = 0;
+        const timer = setInterval(() => {
+          tries += 1;
+          if (ensureLinks() || tries > 80) clearInterval(timer);
+        }, 250);
+        const observer = new MutationObserver(() => ensureLinks());
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        setTimeout(() => observer.disconnect(), 20000);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
   <script src="/assets/index-CoefIrm6.js" type="module"></script>
 </body>
 </html>
