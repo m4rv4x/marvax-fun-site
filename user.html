@@ -4,15 +4,160 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>User Portal - MARVAX</title>
-  <meta http-equiv="refresh" content="0; url=https://api.marvax.fun/user" />
-  <script>window.location.href = 'https://api.marvax.fun/user';</script>
   <style>
-    body { background: #0a0a0a; color: #fff; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; flex-direction: column; gap: 1rem; }
-    a { color: #00d4ff; text-decoration: none; }
+    * { box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      gap: 1.5rem;
+    }
+    .card {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .status.checking { background: #1a1a2e; color: #94a3b8; }
+    .status.online { background: #064e3b; color: #34d399; }
+    .status.offline { background: #450a0a; color: #f87171; }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #94a3b8;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot.online { background: #34d399; }
+    .dot.offline { background: #f87171; }
+    a.btn {
+      display: inline-block;
+      background: #00d4ff;
+      color: #0a0a0a;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    a.btn:hover { opacity: 0.9; }
+    a.btn:disabled, a.btn.disabled {
+      background: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    a.link { color: #00d4ff; text-decoration: none; font-size: 0.875rem; }
+    a.link:hover { text-decoration: underline; }
+    .error-msg { color: #f87171; font-size: 0.875rem; margin-top: 0.5rem; }
+    .manual { margin-top: 1rem; font-size: 0.75rem; color: #6b7280; }
   </style>
 </head>
 <body>
-  <p>User portal moved to <a href="https://api.marvax.fun/user">api.marvax.fun/user</a></p>
-  <p>Redirecting...</p>
+  <div class="card">
+    <div class="logo">MARVAX</div>
+    <div class="status checking" id="status">
+      <div class="spinner"></div>
+      <span>Checking API status...</span>
+    </div>
+    <a href="https://api.marvax.fun/user" class="btn disabled" id="portalBtn" target="_self">
+      Go to Portal
+    </a>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="manual">
+      API URL: <a href="https://api.marvax.fun" class="link">api.marvax.fun</a>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://api.marvax.fun';
+    const statusEl = document.getElementById('status');
+    const btnEl = document.getElementById('portalBtn');
+    const errorEl = document.getElementById('errorMsg');
+
+    async function checkApi() {
+      try {
+        // Try to fetch the API health/status endpoint
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        
+        const response = await fetch(`${API_URL}/health`, {
+          method: 'GET',
+          signal: controller.signal,
+          headers: { 'Accept': 'application/json' }
+        });
+        clearTimeout(timeout);
+        
+        if (response.ok) {
+          // API is online
+          statusEl.className = 'status online';
+          statusEl.innerHTML = '<div class="dot online"></div><span>API Online</span>';
+          btnEl.className = 'btn';
+          btnEl.textContent = 'Go to Portal →';
+          
+          // Auto-redirect after 1.5s
+          setTimeout(() => {
+            window.location.href = `${API_URL}/user`;
+          }, 1500);
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (err) {
+        // API is down or unreachable
+        statusEl.className = 'status offline';
+        statusEl.innerHTML = '<div class="dot offline"></div><span>API Offline</span>';
+        btnEl.className = 'btn disabled';
+        btnEl.textContent = 'Portal Unavailable';
+        errorEl.textContent = 'The API is temporarily unreachable. This page will keep working.';
+        
+        // Enable retry button
+        const retryBtn = document.createElement('a');
+        retryBtn.href = '#';
+        retryBtn.className = 'link';
+        retryBtn.textContent = '↻ Retry';
+        retryBtn.onclick = (e) => {
+          e.preventDefault();
+          location.reload();
+        };
+        errorEl.appendChild(document.createElement('br'));
+        errorEl.appendChild(retryBtn);
+      }
+    }
+
+    // Check immediately
+    checkApi();
+  </script>
 </body>
 </html>
