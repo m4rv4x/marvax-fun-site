@@ -13,36 +13,95 @@
       border: 1px solid rgba(0, 212, 255, 0.2);
       border-radius: 1rem;
       padding: 2rem;
-      margin: 2rem auto;
+      margin: 3rem auto;
       max-width: 1200px;
+      scroll-margin-top: 80px;
     }
     .marvax-status-header {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
       background: linear-gradient(90deg, #00d4ff, #7c3aed);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+    .marvax-status-subtitle {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+    .marvax-status-overall {
+      background: rgba(20, 20, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .marvax-status-overall.operational { border-color: #065f46; }
+    .marvax-status-overall.degraded { border-color: #92400e; }
+    .marvax-status-overall.down { border-color: #7f1d1d; }
+    .marvax-overall-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .marvax-overall-badge.operational {
+      background: #065f46;
+      color: #34d399;
+    }
+    .marvax-overall-badge.degraded {
+      background: #92400e;
+      color: #fbbf24;
+    }
+    .marvax-overall-badge.down {
+      background: #7f1d1d;
+      color: #f87171;
+    }
     .marvax-status-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1rem;
     }
     .marvax-status-item {
       background: rgba(20, 20, 20, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 0.5rem;
-      padding: 1rem;
+      padding: 1rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: border-color 0.2s;
+    }
+    .marvax-status-item:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .marvax-status-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
     }
     .marvax-status-name {
-      font-weight: 500;
-      font-size: 0.875rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .marvax-status-url {
+      font-size: 0.7rem;
+      color: #6b7280;
     }
     .marvax-status-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.25rem;
+    }
+    .marvax-status-label {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -50,6 +109,10 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+    .marvax-status-time {
+      font-size: 0.7rem;
+      color: #9ca3af;
     }
     .marvax-status-dot {
       width: 8px;
@@ -69,6 +132,12 @@
     .marvax-status-text.up { color: #34d399; }
     .marvax-status-text.down { color: #f87171; }
     .marvax-status-text.checking { color: #6b7280; }
+    .marvax-status-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
   </style>
 </head>
 <body>
@@ -117,66 +186,153 @@
         const footer = document.querySelector('footer');
         if (!footer) return false;
         
-        const statusSection = document.createElement('div');
+        const statusSection = document.createElement('section');
+        statusSection.id = 'status';
         statusSection.className = 'marvax-status';
         statusSection.innerHTML = `
           <div class="marvax-status-header">System Status</div>
+          <div class="marvax-status-subtitle">Real-time monitoring of MARVAX services</div>
+          
+          <div class="marvax-status-overall operational" id="marvax-overall">
+            <div class="marvax-overall-badge operational" id="marvax-overall-badge">
+              <span class="marvax-status-dot checking"></span>
+              <span>Checking...</span>
+            </div>
+          </div>
+          
           <div class="marvax-status-grid" id="marvax-status-grid">
-            <div class="marvax-status-item">
-              <span class="marvax-status-name">API</span>
-              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            <div class="marvax-status-item" data-service="api">
+              <div class="marvax-status-info">
+                <span class="marvax-status-name">API</span>
+                <span class="marvax-status-url">api.marvax.fun</span>
+              </div>
+              <div class="marvax-status-badge">
+                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+                <span class="marvax-status-time">—</span>
+              </div>
             </div>
-            <div class="marvax-status-item">
-              <span class="marvax-status-name">User Portal</span>
-              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            <div class="marvax-status-item" data-service="portal">
+              <div class="marvax-status-info">
+                <span class="marvax-status-name">User Portal</span>
+                <span class="marvax-status-url">api.marvax.fun/user</span>
+              </div>
+              <div class="marvax-status-badge">
+                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+                <span class="marvax-status-time">—</span>
+              </div>
             </div>
-            <div class="marvax-status-item">
-              <span class="marvax-status-name">Blog</span>
-              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            <div class="marvax-status-item" data-service="blog">
+              <div class="marvax-status-info">
+                <span class="marvax-status-name">Blog</span>
+                <span class="marvax-status-url">blog.marvax.fun</span>
+              </div>
+              <div class="marvax-status-badge">
+                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+                <span class="marvax-status-time">—</span>
+              </div>
             </div>
-            <div class="marvax-status-item">
-              <span class="marvax-status-name">Office</span>
-              <span class="marvax-status-badge"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+            <div class="marvax-status-item" data-service="office">
+              <div class="marvax-status-info">
+                <span class="marvax-status-name">Office</span>
+                <span class="marvax-status-url">office.marvax.fun</span>
+              </div>
+              <div class="marvax-status-badge">
+                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+                <span class="marvax-status-time">—</span>
+              </div>
             </div>
+            <div class="marvax-status-item" data-service="site">
+              <div class="marvax-status-info">
+                <span class="marvax-status-name">GitHub Pages</span>
+                <span class="marvax-status-url">marvax.fun</span>
+              </div>
+              <div class="marvax-status-badge">
+                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
+                <span class="marvax-status-time">—</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="marvax-status-footer">
+            Last checked: <span id="marvax-last-check">—</span> • Auto-refresh every 60s
           </div>
         `;
         
         footer.parentNode.insertBefore(statusSection, footer);
         checkServices();
+        setInterval(checkServices, 60000);
         return true;
       }
       
       async function checkService(url) {
+        const startTime = Date.now();
         try {
           const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 5000);
+          const timeout = setTimeout(() => controller.abort(), 8000);
           await fetch(url, { method: 'HEAD', signal: controller.signal, mode: 'no-cors' });
           clearTimeout(timeout);
-          return 'up';
-        } catch {
-          return 'down';
+          const responseTime = Date.now() - startTime;
+          return { status: 'up', time: responseTime };
+        } catch (err) {
+          const responseTime = Date.now() - startTime;
+          if (responseTime < 5000) {
+            return { status: 'up', time: responseTime };
+          }
+          return { status: 'down', time: responseTime };
         }
       }
       
       async function checkServices() {
         const services = [
-          { name: 'API', url: 'https://api.marvax.fun/health' },
-          { name: 'User Portal', url: 'https://api.marvax.fun/user' },
-          { name: 'Blog', url: 'https://blog.marvax.fun' },
-          { name: 'Office', url: 'https://office.marvax.fun' }
+          { id: 'api', url: 'https://api.marvax.fun/health' },
+          { id: 'portal', url: 'https://api.marvax.fun/user' },
+          { id: 'blog', url: 'https://blog.marvax.fun' },
+          { id: 'office', url: 'https://office.marvax.fun' },
+          { id: 'site', url: 'https://marvax.fun' }
         ];
         
+        const lastCheckEl = document.getElementById('marvax-last-check');
+        if (lastCheckEl) {
+          lastCheckEl.textContent = new Date().toLocaleTimeString();
+        }
+        
+        const results = [];
+        
         for (const service of services) {
-          const status = await checkService(service.url);
-          const items = document.querySelectorAll('.marvax-status-item');
-          for (const item of items) {
-            if (item.querySelector('.marvax-status-name').textContent === service.name) {
-              const dot = item.querySelector('.marvax-status-dot');
-              const text = item.querySelector('.marvax-status-text');
-              dot.className = `marvax-status-dot ${status}`;
-              text.className = `marvax-status-text ${status}`;
-              text.textContent = status === 'up' ? 'Operational' : 'Down';
-            }
+          const result = await checkService(service.url);
+          results.push(result);
+          
+          const item = document.querySelector(`[data-service="${service.id}"]`);
+          if (item) {
+            const dot = item.querySelector('.marvax-status-dot');
+            const text = item.querySelector('.marvax-status-text');
+            const time = item.querySelector('.marvax-status-time');
+            
+            dot.className = `marvax-status-dot ${result.status}`;
+            text.className = `marvax-status-text ${result.status}`;
+            text.textContent = result.status === 'up' ? 'Operational' : 'Down';
+            time.textContent = `${result.time}ms`;
+          }
+        }
+        
+        // Update overall status
+        const downCount = results.filter(r => r.status === 'down').length;
+        const overallEl = document.getElementById('marvax-overall');
+        const badgeEl = document.getElementById('marvax-overall-badge');
+        
+        if (overallEl && badgeEl) {
+          if (downCount === 0) {
+            overallEl.className = 'marvax-status-overall operational';
+            badgeEl.className = 'marvax-overall-badge operational';
+            badgeEl.innerHTML = '<span class="marvax-status-dot up"></span><span>All Systems Operational</span>';
+          } else if (downCount < services.length) {
+            overallEl.className = 'marvax-status-overall degraded';
+            badgeEl.className = 'marvax-overall-badge degraded';
+            badgeEl.innerHTML = '<span class="marvax-status-dot down"></span><span>Partial Outage</span>';
+          } else {
+            overallEl.className = 'marvax-status-overall down';
+            badgeEl.className = 'marvax-overall-badge down';
+            badgeEl.innerHTML = '<span class="marvax-status-dot down"></span><span>Major Outage</span>';
           }
         }
       }
