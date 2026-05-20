@@ -1,74 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MARVAX.FUN - PORTAL</title>
-  <meta name="description" content="Marvax user portal with OpenAI endpoint docs, webchat, user access, privacy pages, and service status." />
-  <link rel="preload" as="image" href="/hero-bg.jpg" />
-  <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
-  <style>
-  </style>
+  <title>Marvax — page introuvable</title>
+  <meta name="description" content="Page introuvable sur Marvax. Retour rapide vers l’accueil, le statut ou le portail." />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <div id="root"></div>
-  <script>
-    (() => {
-      const REPLACEMENTS = [
-        { from: 'portal section', to: 'Blog', href: 'https://blog.marvax.fun' },
-        { from: 'docs section', to: 'Office', href: 'https://office.marvax.fun' },
-      ];
+  <main class="page-hero">
+    <div class="wrapper stack">
+      <section class="panel center">
+        <div class="kicker">404</div>
+        <h1>La route demandée n’existe pas.</h1>
+        <p class="lead" style="margin-left:auto;margin-right:auto;">
+          Si tu es tombé ici, c’est probablement une ancienne URL ou un lien obsolète. Utilise les accès valides ci-dessous.
+        </p>
+        <div class="hero-actions" style="justify-content:center;">
+          <a class="button" href="/index.html">Retour accueil</a>
+          <a class="button-secondary" href="/status.html">Voir le statut</a>
+          <a class="button-ghost" href="/user.html">Espace utilisateur</a>
+        </div>
+      </section>
 
-      function replaceButtons() {
-        const buttons = Array.from(document.querySelectorAll('button, a'));
-        let replaced = 0;
-        for (const btn of buttons) {
-          const text = (btn.textContent || '').trim().toLowerCase();
-          const match = REPLACEMENTS.find(r => r.from === text);
-          if (match && !btn.dataset.marvaxReplaced && !btn.closest('[data-marvax-replaced="1"]')) {
-            if (btn.tagName.toLowerCase() === 'button') {
-              // Remplacer le button par un lien <a>
-              const a = document.createElement('a');
-              a.textContent = match.to;
-              a.href = match.href;
-              a.target = '_blank';
-              a.rel = 'noopener noreferrer';
-              a.className = btn.className;
-              a.dataset.marvaxReplaced = '1';
-              btn.parentNode.replaceChild(a, btn);
-            } else {
-              // Modifier le lien existant
-              btn.textContent = match.to;
-              btn.href = match.href;
-              btn.target = '_blank';
-              btn.rel = 'noopener noreferrer';
-              btn.dataset.marvaxReplaced = '1';
-            }
-            replaced++;
-          }
-        }
-        return replaced === REPLACEMENTS.length;
-      }
-
-      function boot() {
-        if (replaceButtons()) return;
-        let tries = 0;
-        const timer = setInterval(() => {
-          tries += 1;
-          if (replaceButtons() || tries > 80) clearInterval(timer);
-        }, 250);
-        const observer = new MutationObserver(() => replaceButtons());
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        setTimeout(() => observer.disconnect(), 20000);
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot, { once: true });
-      } else {
-        boot();
-      }
-    })();
-  </script>
-  <script src="/assets/index-CoefIrm6.js" type="module"></script>
+      <section class="page-block">
+        <h2>Liens utiles</h2>
+        <div class="link-grid">
+          <a class="link-card" href="/docs.html">
+            <strong>Documentation</strong>
+            <p>Endpoints visibles, checks rapides et surfaces publiques listées proprement.</p>
+          </a>
+          <a class="link-card" href="/privacy.html">
+            <strong>Privacy</strong>
+            <p>Résumé de fonctionnement de la vitrine publique et des surfaces externes.</p>
+          </a>
+          <a class="link-card" href="/status.html">
+            <strong>Statut public</strong>
+            <p>Disponibilité réelle du site principal, du portail, du healthcheck API et du blog.</p>
+          </a>
+          <a class="link-card" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">
+            <strong>Blog</strong>
+            <p>Contenus et publications publiques disponibles hors de la vitrine principale.</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
 </body>
 </html>

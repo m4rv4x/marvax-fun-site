@@ -1,29 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Status - MARVAX</title>
-  <meta http-equiv="refresh" content="0; url=/#status" />
-  <script>window.location.href = '/#status';</script>
-  <style>
-    body {
-      background: #0a0a0a;
-      color: #fff;
-      font-family: system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    a {
-      color: #00d4ff;
-      text-decoration: none;
-    }
-  </style>
+  <title>Marvax — statut public</title>
+  <meta name="description" content="Statut public des surfaces suivies par Marvax : site principal, blog, health API et portail utilisateur." />
+  <link rel="canonical" href="https://marvax.fun/status" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <p>Redirecting to <a href="/#status">status section</a>...</p>
+  <header class="site-header">
+    <div class="wrapper navbar">
+      <a class="brand" href="/index.html"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/index.html">Accueil</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/user.html">Portail</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-hero">
+    <div class="wrapper stack">
+      <section class="panel">
+        <div class="kicker">Statut public</div>
+        <h1>Disponibilité réelle des surfaces suivies.</h1>
+        <p class="lead">
+          Cette page ne marque automatiquement que les surfaces que le navigateur peut vérifier sans ambiguïté. Les entrées API et portail restent exposées,
+          mais ne sont pas annoncées “up” sans signal exploitable côté client.
+        </p>
+      </section>
+
+      <section class="page-block">
+        <div class="status-board" data-status-board data-interval="60000" data-timeout="8000">
+          <div class="status-overview">
+            <div>
+              <strong>État global vérifiable</strong>
+              <p class="small">Dernière vérification : <span data-role="timestamp">—</span></p>
+            </div>
+            <span class="badge-neutral" data-role="overall">En attente de vérification</span>
+          </div>
+
+          <div class="status-grid">
+            <article class="status-card" data-service-url="https://marvax.fun">
+              <div class="status-row">
+                <div>
+                  <h3>marvax.fun</h3>
+                  <div class="status-url">Homepage publique</div>
+                </div>
+                <span class="status-time" data-role="time">—</span>
+              </div>
+              <div class="status-label"><span class="status-dot checking" data-role="dot"></span><span data-role="label">Checking</span></div>
+            </article>
+
+            <article class="status-card">
+              <div class="status-row">
+                <div>
+                  <h3>api.marvax.fun/health</h3>
+                  <div class="status-url">Health API</div>
+                </div>
+                <span class="status-time">manuel</span>
+              </div>
+              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Non vérifié depuis le navigateur</span></div>
+            </article>
+
+            <article class="status-card">
+              <div class="status-row">
+                <div>
+                  <h3>api.marvax.fun/user</h3>
+                  <div class="status-url">Portail utilisateur</div>
+                </div>
+                <span class="status-time">manuel</span>
+              </div>
+              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Ouvrir via la page portail</span></div>
+            </article>
+
+            <article class="status-card" data-service-url="https://blog.marvax.fun">
+              <div class="status-row">
+                <div>
+                  <h3>blog.marvax.fun</h3>
+                  <div class="status-url">Blog public</div>
+                </div>
+                <span class="status-time" data-role="time">—</span>
+              </div>
+              <div class="status-label"><span class="status-dot checking" data-role="dot"></span><span data-role="label">Checking</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-block">
+        <h2>Interprétation</h2>
+        <div class="listing">
+          <div class="listing-item">
+            <strong>Operational</strong>
+            <p>La surface répond au check navigateur utilisé par cette page.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Indisponible</strong>
+            <p>La surface vérifiable ne répond pas dans le délai imparti ou déclenche une erreur côté navigateur.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Non vérifié depuis le navigateur</strong>
+            <p>La surface est listée comme point d’entrée public, mais ce site statique ne dispose pas d’un signal client fiable pour l’évaluer sans faux positif.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper panel footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
+        <p class="small">Page dédiée au suivi public des surfaces exposées.</p>
+      </div>
+      <div class="footer-list small">
+        <a href="/index.html">Accueil</a>
+        <a href="/docs.html">Docs</a>
+      </div>
+      <div class="footer-list small">
+        <a href="/user.html">Portail</a>
+        <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/status.js" defer></script>
 </body>
 </html>

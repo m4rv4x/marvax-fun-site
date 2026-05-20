@@ -1,17 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Privacy - MARVAX</title>
-  <meta http-equiv="refresh" content="0; url=/#privacy" />
-  <script>window.location.href = '/#privacy';</script>
-  <style>
-    body { background: #0a0a0a; color: #fff; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-    a { color: #00d4ff; text-decoration: none; }
-  </style>
+  <title>Marvax — privacy</title>
+  <meta name="description" content="Informations de base sur la confidentialité et les surfaces publiques de Marvax." />
+  <link rel="canonical" href="https://marvax.fun/privacy" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <p>Redirecting to <a href="/#privacy">privacy section</a>...</p>
+  <header class="site-header">
+    <div class="wrapper navbar">
+      <a class="brand" href="/index.html"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="/index.html">Accueil</a>
+        <a href="/docs.html">Docs</a>
+        <a href="/status.html">Statut</a>
+        <a href="/user.html">Portail</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-hero">
+    <div class="wrapper stack">
+      <section class="panel">
+        <div class="kicker">Privacy</div>
+        <h1>Une vitrine publique simple, sans couches inutiles.</h1>
+        <p class="lead">
+          Cette page résume le comportement attendu du site public. Elle ne remplace pas d’éventuelles obligations légales liées à l’hébergement, au portail ou aux surfaces applicatives externes.
+        </p>
+      </section>
+
+      <section class="page-block">
+        <h2>Ce que fait ce site</h2>
+        <div class="listing">
+          <div class="listing-item">
+            <strong>Vitrine publique</strong>
+            <p>Le site principal sert d’index public : accès utilisateur, statut, documentation utile, blog et contact.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Pas d’analytics ajoutés par défaut</strong>
+            <p>Cette version évite les scripts marketing ou trackers ajoutés automatiquement sur la homepage.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Checks de disponibilité</strong>
+            <p>Les pages de statut effectuent des requêtes réseau vers les surfaces suivies afin d’afficher leur disponibilité.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-block">
+        <h2>Ce qui dépend d’autres surfaces</h2>
+        <div class="listing">
+          <div class="listing-item">
+            <strong>Portail utilisateur</strong>
+            <p>Le portail et l’API publique sont servis hors de cette page statique. Leurs logs techniques, protections et mécanismes d’authentification leur appartiennent.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Blog</strong>
+            <p>Le blog est une surface distincte. Son fonctionnement et ses éventuels traitements techniques dépendent de son propre service.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Hébergement / CDN</strong>
+            <p>Comme tout site public, l’infrastructure qui délivre les pages peut traiter des logs réseau minimaux pour la sécurité, le cache et la disponibilité.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-block">
+        <h2>Contact</h2>
+        <p>Pour une demande liée au site public ou à la confidentialité, le point de contact affiché ici est <a class="text-link" href="mailto:hello@marvax.fun">hello@marvax.fun</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper panel footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
+        <p class="small">Résumé public de confidentialité pour la vitrine et ses surfaces externes.</p>
+      </div>
+      <div class="footer-list small">
+        <a href="/index.html">Accueil</a>
+        <a href="/docs.html">Docs</a>
+      </div>
+      <div class="footer-list small">
+        <a href="/status.html">Statut</a>
+        <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

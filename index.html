@@ -1,369 +1,334 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MARVAX.FUN - PORTAL</title>
-  <meta name="description" content="Marvax user portal with OpenAI endpoint docs, webchat, user access, privacy pages, and service status." />
-  <link rel="preload" as="image" href="/hero-bg.jpg" />
-  <link rel="stylesheet" href="/assets/index-jPccYtsc.css" />
-  <style>
-    .marvax-status {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      border: 1px solid rgba(0, 212, 255, 0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      margin: 3rem auto;
-      max-width: 1200px;
-      scroll-margin-top: 80px;
-    }
-    .marvax-status-header {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      text-align: center;
-      background: linear-gradient(90deg, #00d4ff, #7c3aed);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .marvax-status-subtitle {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 0.875rem;
-      margin-bottom: 2rem;
-    }
-    .marvax-status-overall {
-      background: rgba(20, 20, 20, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .marvax-status-overall.operational { border-color: #065f46; }
-    .marvax-status-overall.degraded { border-color: #92400e; }
-    .marvax-status-overall.down { border-color: #7f1d1d; }
-    .marvax-overall-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    .marvax-overall-badge.operational {
-      background: #065f46;
-      color: #34d399;
-    }
-    .marvax-overall-badge.degraded {
-      background: #92400e;
-      color: #fbbf24;
-    }
-    .marvax-overall-badge.down {
-      background: #7f1d1d;
-      color: #f87171;
-    }
-    .marvax-status-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-    .marvax-status-item {
-      background: rgba(20, 20, 20, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 0.5rem;
-      padding: 1rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: border-color 0.2s;
-    }
-    .marvax-status-item:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    .marvax-status-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .marvax-status-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .marvax-status-url {
-      font-size: 0.7rem;
-      color: #6b7280;
-    }
-    .marvax-status-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.25rem;
-    }
-    .marvax-status-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .marvax-status-time {
-      font-size: 0.7rem;
-      color: #9ca3af;
-    }
-    .marvax-status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-    .marvax-status-dot.up { background: #34d399; }
-    .marvax-status-dot.down { background: #f87171; }
-    .marvax-status-dot.checking {
-      background: #6b7280;
-      animation: marvax-pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes marvax-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .marvax-status-text.up { color: #34d399; }
-    .marvax-status-text.down { color: #f87171; }
-    .marvax-status-text.checking { color: #6b7280; }
-    .marvax-status-footer {
-      margin-top: 1.5rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #6b7280;
-    }
-  </style>
+  <title>Marvax — accès, statut et documentation</title>
+  <meta name="description" content="Hub public Marvax : accès utilisateur, statut des services, documentation utile, blog et contact." />
+  <link rel="canonical" href="https://marvax.fun/" />
+  <meta name="theme-color" content="#07111f" />
+  <meta property="og:title" content="Marvax — accès, statut et documentation" />
+  <meta property="og:description" content="Un point d’entrée clair pour l’espace utilisateur, le statut public, la documentation et les liens utiles." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marvax.fun/" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <div id="root"></div>
-  <script>
-    (() => {
-      const REPLACEMENTS = [
-        { from: 'portal section', to: 'Blog', href: 'https://blog.marvax.fun' },
-        { from: 'docs section', to: 'Office', href: 'https://office.marvax.fun' },
-      ];
+  <header class="site-header">
+    <div class="wrapper navbar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Marvax</span>
+      </a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#overview">Vue d’ensemble</a>
+        <a href="#docs">Docs</a>
+        <a href="#status">Statut</a>
+        <a href="#privacy">Privacy</a>
+        <a href="/user.html">Portail</a>
+      </nav>
+    </div>
+  </header>
 
-      function replaceButtons() {
-        const buttons = Array.from(document.querySelectorAll('button, a'));
-        let replaced = 0;
-        for (const btn of buttons) {
-          const text = (btn.textContent || '').trim().toLowerCase();
-          const match = REPLACEMENTS.find(r => r.from === text);
-          if (match && !btn.dataset.marvaxReplaced && !btn.closest('[data-marvax-replaced="1"]')) {
-            if (btn.tagName.toLowerCase() === 'button') {
-              // Remplacer le button par un lien <a>
-              const a = document.createElement('a');
-              a.textContent = match.to;
-              a.href = match.href;
-              a.target = '_blank';
-              a.rel = 'noopener noreferrer';
-              a.className = btn.className;
-              a.dataset.marvaxReplaced = '1';
-              btn.parentNode.replaceChild(a, btn);
-            } else {
-              // Modifier le lien existant
-              btn.textContent = match.to;
-              btn.href = match.href;
-              btn.target = '_blank';
-              btn.rel = 'noopener noreferrer';
-              btn.dataset.marvaxReplaced = '1';
-            }
-            replaced++;
-          }
-        }
-        return replaced === REPLACEMENTS.length;
-      }
+  <main>
+    <section class="hero">
+      <div class="wrapper hero-grid">
+        <div class="panel hero-copy">
+          <div class="kicker">Hub public Marvax</div>
+          <h1>Un site clair, utile et à jour.</h1>
+          <p class="lead">
+            Marvax sert de point d’entrée public pour l’espace utilisateur, le suivi de disponibilité,
+            la documentation essentielle et les liens de contact. Pas de texte par défaut, pas de routes mortes,
+            pas de promesses vagues.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="/user.html">Ouvrir l’espace utilisateur</a>
+            <a class="button-secondary" href="#status">Voir le statut public</a>
+            <a class="button-ghost" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Lire le blog</a>
+          </div>
+        </div>
 
-      function injectStatusSection() {
-        if (document.querySelector('.marvax-status')) return true;
-        
-        const footer = document.querySelector('footer');
-        if (!footer) return false;
-        
-        const statusSection = document.createElement('section');
-        statusSection.id = 'status';
-        statusSection.className = 'marvax-status';
-        statusSection.innerHTML = `
-          <div class="marvax-status-header">System Status</div>
-          <div class="marvax-status-subtitle">Real-time monitoring of MARVAX services</div>
-          
-          <div class="marvax-status-overall operational" id="marvax-overall">
-            <div class="marvax-overall-badge operational" id="marvax-overall-badge">
-              <span class="marvax-status-dot checking"></span>
-              <span>Checking...</span>
+        <aside class="panel hero-side" aria-label="Résumé rapide">
+          <div class="metric-grid">
+            <div class="metric">
+              <strong>Portail</strong>
+              <span>Accès public via <code>api.marvax.fun/user</code> quand la surface est disponible.</span>
+            </div>
+            <div class="metric">
+              <strong>API publique</strong>
+              <span>Base d’accès annoncée : <code>api.marvax.fun</code>. Vérifier le statut avant intégration.</span>
+            </div>
+            <div class="metric">
+              <strong>Blog</strong>
+              <span>Publications et contenus disponibles sur <code>blog.marvax.fun</code>.</span>
+            </div>
+            <div class="metric">
+              <strong>Contact</strong>
+              <span>Point de contact principal : <a class="text-link" href="mailto:hello@marvax.fun">hello@marvax.fun</a>.</span>
             </div>
           </div>
-          
-          <div class="marvax-status-grid" id="marvax-status-grid">
-            <div class="marvax-status-item" data-service="api">
-              <div class="marvax-status-info">
-                <span class="marvax-status-name">API</span>
-                <span class="marvax-status-url">api.marvax.fun</span>
-              </div>
-              <div class="marvax-status-badge">
-                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
-                <span class="marvax-status-time">—</span>
-              </div>
-            </div>
-            <div class="marvax-status-item" data-service="portal">
-              <div class="marvax-status-info">
-                <span class="marvax-status-name">User Portal</span>
-                <span class="marvax-status-url">api.marvax.fun/user</span>
-              </div>
-              <div class="marvax-status-badge">
-                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
-                <span class="marvax-status-time">—</span>
-              </div>
-            </div>
-            <div class="marvax-status-item" data-service="blog">
-              <div class="marvax-status-info">
-                <span class="marvax-status-name">Blog</span>
-                <span class="marvax-status-url">blog.marvax.fun</span>
-              </div>
-              <div class="marvax-status-badge">
-                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
-                <span class="marvax-status-time">—</span>
-              </div>
-            </div>
-            <div class="marvax-status-item" data-service="office">
-              <div class="marvax-status-info">
-                <span class="marvax-status-name">Office</span>
-                <span class="marvax-status-url">office.marvax.fun</span>
-              </div>
-              <div class="marvax-status-badge">
-                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
-                <span class="marvax-status-time">—</span>
-              </div>
-            </div>
-            <div class="marvax-status-item" data-service="site">
-              <div class="marvax-status-info">
-                <span class="marvax-status-name">GitHub Pages</span>
-                <span class="marvax-status-url">marvax.fun</span>
-              </div>
-              <div class="marvax-status-badge">
-                <span class="marvax-status-label"><span class="marvax-status-dot checking"></span><span class="marvax-status-text checking">Checking</span></span>
-                <span class="marvax-status-time">—</span>
-              </div>
-            </div>
+          <div class="notice">
+            <strong>Note</strong>
+            <p>
+              Cette homepage reste volontairement sobre : elle sert surtout à orienter rapidement vers les surfaces publiques valides
+              et à montrer l’état réel des services suivis.
+            </p>
           </div>
-          
-          <div class="marvax-status-footer">
-            Last checked: <span id="marvax-last-check">—</span> • Auto-refresh every 60s
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>Vue d’ensemble</h2>
+          <p>
+            Le site public remplit quatre fonctions : orienter vers le portail utilisateur, exposer un statut lisible,
+            centraliser les liens utiles et fournir un minimum de documentation sans redondance.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <div class="badge-row"><span class="badge">Accès utilisateur</span></div>
+            <h3>Portail</h3>
+            <p>
+              La page <code>/user.html</code> vérifie l’accessibilité du portail avant de rediriger. Si la surface ne répond pas,
+              la page reste informative au lieu d’envoyer vers une impasse.
+            </p>
+            <a class="text-link" href="/user.html">Ouvrir la page portail →</a>
+          </article>
+
+          <article class="card">
+            <div class="badge-row"><span class="badge">Docs</span></div>
+            <h3>Références utiles</h3>
+            <p>
+              La documentation présente ici ne prétend pas remplacer le portail ou une console d’admin. Elle rappelle les points d’entrée publics,
+              les endpoints visibles et les liens de vérification rapides.
+            </p>
+            <a class="text-link" href="/docs.html">Voir la documentation →</a>
+          </article>
+
+          <article class="card">
+            <div class="badge-row"><span class="badge">Monitoring</span></div>
+            <h3>Statut public</h3>
+            <p>
+              Le tableau de statut ci-dessous teste directement les surfaces suivies. Il ne raconte pas une histoire marketing : il reflète la réponse réelle.
+            </p>
+            <a class="text-link" href="/status.html">Ouvrir la page statut →</a>
+          </article>
+
+          <article class="card">
+            <div class="badge-row"><span class="badge">Contenu</span></div>
+            <h3>Blog et contact</h3>
+            <p>
+              Pour les publications, annonces ou contenus plus longs, le point public à consulter reste <code>blog.marvax.fun</code>.
+              Pour le reste, le contact direct passe par email.
+            </p>
+            <a class="text-link" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Aller au blog →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="docs">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>Documentation utile</h2>
+          <p>
+            Ce bloc ne liste que ce qui est réellement exposé publiquement depuis ce site : le portail utilisateur, la base API publique,
+            le statut et le blog. Les surfaces internes ou obsolètes n’apparaissent pas ici.
+          </p>
+        </div>
+
+        <div class="docs-grid">
+          <article class="doc-card">
+            <strong>Base API publique</strong>
+            <p>Point d’entrée annoncé : <code>https://api.marvax.fun</code></p>
+            <pre><code>GET https://api.marvax.fun/health
+GET https://api.marvax.fun/user</code></pre>
+          </article>
+
+          <article class="doc-card">
+            <strong>Portail utilisateur</strong>
+            <p>
+              La page locale <code>/user.html</code> sert de garde-fou : elle vérifie si le portail répond avant de tenter la redirection.
+            </p>
+            <div class="inline-actions">
+              <a class="button-secondary" href="/user.html">Tester l’accès portail</a>
+            </div>
+          </article>
+
+          <article class="doc-card">
+            <strong>Statut public</strong>
+            <p>
+              Vérification rapide des surfaces suivies : site principal, blog, health API et entrée utilisateur.
+            </p>
+            <div class="inline-actions">
+              <a class="button-secondary" href="/status.html">Ouvrir la page statut</a>
+            </div>
+          </article>
+
+          <article class="doc-card">
+            <strong>Ressource éditoriale</strong>
+            <p>
+              Le blog reste le bon point d’entrée pour les contenus longs, notes et publications publiques.
+            </p>
+            <div class="inline-actions">
+              <a class="button-secondary" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Aller au blog</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="status">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>Statut public</h2>
+          <p>
+            Les checks automatiques ci-dessous ne couvrent que les surfaces vérifiables proprement depuis le navigateur. Les surfaces API et portail, elles,
+            restent listées comme points d’entrée publics mais ne sont pas déclarées “up” sans signal exploitable côté navigateur.
+          </p>
+        </div>
+
+        <div class="status-board" data-status-board data-lazy="true" data-interval="60000" data-timeout="8000">
+          <div class="status-overview">
+            <div>
+              <strong>Disponibilité vérifiable depuis le navigateur</strong>
+              <p class="small">Dernière vérification : <span data-role="timestamp">—</span></p>
+            </div>
+            <span class="badge-neutral" data-role="overall">En attente de vérification</span>
           </div>
-        `;
-        
-        footer.parentNode.insertBefore(statusSection, footer);
-        checkServices();
-        setInterval(checkServices, 60000);
-        return true;
-      }
-      
-      async function checkService(url) {
-        const startTime = Date.now();
-        try {
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 8000);
-          await fetch(url, { method: 'HEAD', signal: controller.signal, mode: 'no-cors' });
-          clearTimeout(timeout);
-          const responseTime = Date.now() - startTime;
-          return { status: 'up', time: responseTime };
-        } catch (err) {
-          const responseTime = Date.now() - startTime;
-          if (responseTime < 5000) {
-            return { status: 'up', time: responseTime };
-          }
-          return { status: 'down', time: responseTime };
-        }
-      }
-      
-      async function checkServices() {
-        const services = [
-          { id: 'api', url: 'https://api.marvax.fun/health' },
-          { id: 'portal', url: 'https://api.marvax.fun/user' },
-          { id: 'blog', url: 'https://blog.marvax.fun' },
-          { id: 'office', url: 'https://office.marvax.fun' },
-          { id: 'site', url: 'https://marvax.fun' }
-        ];
-        
-        const lastCheckEl = document.getElementById('marvax-last-check');
-        if (lastCheckEl) {
-          lastCheckEl.textContent = new Date().toLocaleTimeString();
-        }
-        
-        const results = [];
-        
-        for (const service of services) {
-          const result = await checkService(service.url);
-          results.push(result);
-          
-          const item = document.querySelector(`[data-service="${service.id}"]`);
-          if (item) {
-            const dot = item.querySelector('.marvax-status-dot');
-            const text = item.querySelector('.marvax-status-text');
-            const time = item.querySelector('.marvax-status-time');
-            
-            dot.className = `marvax-status-dot ${result.status}`;
-            text.className = `marvax-status-text ${result.status}`;
-            text.textContent = result.status === 'up' ? 'Operational' : 'Down';
-            time.textContent = `${result.time}ms`;
-          }
-        }
-        
-        // Update overall status
-        const downCount = results.filter(r => r.status === 'down').length;
-        const overallEl = document.getElementById('marvax-overall');
-        const badgeEl = document.getElementById('marvax-overall-badge');
-        
-        if (overallEl && badgeEl) {
-          if (downCount === 0) {
-            overallEl.className = 'marvax-status-overall operational';
-            badgeEl.className = 'marvax-overall-badge operational';
-            badgeEl.innerHTML = '<span class="marvax-status-dot up"></span><span>All Systems Operational</span>';
-          } else if (downCount < services.length) {
-            overallEl.className = 'marvax-status-overall degraded';
-            badgeEl.className = 'marvax-overall-badge degraded';
-            badgeEl.innerHTML = '<span class="marvax-status-dot down"></span><span>Partial Outage</span>';
-          } else {
-            overallEl.className = 'marvax-status-overall down';
-            badgeEl.className = 'marvax-overall-badge down';
-            badgeEl.innerHTML = '<span class="marvax-status-dot down"></span><span>Major Outage</span>';
-          }
-        }
-      }
 
-      function boot() {
-        replaceButtons();
-        injectStatusSection();
-        
-        let tries = 0;
-        const timer = setInterval(() => {
-          tries += 1;
-          replaceButtons();
-          injectStatusSection();
-          if (tries > 80) clearInterval(timer);
-        }, 250);
-        
-        const observer = new MutationObserver(() => {
-          replaceButtons();
-          injectStatusSection();
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        setTimeout(() => observer.disconnect(), 20000);
-      }
+          <div class="status-grid">
+            <article class="status-card" data-service-url="https://marvax.fun">
+              <div class="status-row">
+                <div>
+                  <h3>marvax.fun</h3>
+                  <div class="status-url">Site principal</div>
+                </div>
+                <span class="status-time" data-role="time">—</span>
+              </div>
+              <div class="status-label"><span class="status-dot checking" data-role="dot"></span><span data-role="label">Checking</span></div>
+            </article>
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', boot, { once: true });
-      } else {
-        boot();
-      }
-    })();
-  </script>
-  <script src="/assets/index-CoefIrm6.js" type="module"></script>
+            <article class="status-card">
+              <div class="status-row">
+                <div>
+                  <h3>api.marvax.fun/health</h3>
+                  <div class="status-url">Healthcheck public</div>
+                </div>
+                <span class="status-time">manuel</span>
+              </div>
+              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Non vérifié depuis le navigateur</span></div>
+            </article>
+
+            <article class="status-card">
+              <div class="status-row">
+                <div>
+                  <h3>api.marvax.fun/user</h3>
+                  <div class="status-url">Entrée utilisateur</div>
+                </div>
+                <span class="status-time">manuel</span>
+              </div>
+              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Ouvrir via la page portail</span></div>
+            </article>
+
+            <article class="status-card" data-service-url="https://blog.marvax.fun">
+              <div class="status-row">
+                <div>
+                  <h3>blog.marvax.fun</h3>
+                  <div class="status-url">Blog public</div>
+                </div>
+                <span class="status-time" data-role="time">—</span>
+              </div>
+              <div class="status-label"><span class="status-dot checking" data-role="dot"></span><span data-role="label">Checking</span></div>
+            </article>
+          </div>
+
+          <div class="notice">
+            <strong>Pourquoi ces deux cartes ne sont pas auto-checkées ?</strong>
+            <p>
+              Depuis une page statique, le navigateur ne peut pas confirmer proprement l’état HTTP de certaines surfaces externes sans un signal CORS explicite.
+              Les URL sont donc listées ici, mais pas marquées “Operational” sur un faux positif réseau.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="privacy">
+      <div class="wrapper">
+        <div class="section-header">
+          <h2>Privacy</h2>
+          <p>
+            Cette vitrine publique cherche à rester simple. Elle évite les pages inutiles et sépare clairement le site d’information,
+            le blog et les surfaces applicatives.
+          </p>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Site public</h3>
+            <p>
+              La navigation publique ne demande pas de compte. Les contrôles de disponibilité affichés ici servent uniquement à vérifier la réponse des surfaces suivies.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>Surfaces externes</h3>
+            <p>
+              Le blog, le portail utilisateur et l’API publique ont leur propre comportement réseau, leurs logs techniques et, le cas échéant, leurs mécanismes d’authentification.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>Tracking</h3>
+            <p>
+              Cette homepage évite les scripts marketing ou analytics ajoutés “par défaut”. Si une donnée est traitée, elle relève principalement de l’hébergement, du CDN ou du service ciblé.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>Contact</h3>
+            <p>
+              Pour une demande liée au site public ou à la confidentialité, le point de contact affiché ici est <a class="text-link" href="mailto:hello@marvax.fun">hello@marvax.fun</a>.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper panel footer-grid">
+      <div>
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
+        <p class="small">
+          Hub public compact : accès utilisateur, statut, documentation essentielle, blog et contact.
+        </p>
+      </div>
+      <div>
+        <strong>Liens</strong>
+        <div class="footer-list small">
+          <a href="/user.html">Espace utilisateur</a>
+          <a href="/docs.html">Documentation</a>
+          <a href="/status.html">Statut</a>
+          <a href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div>
+        <strong>Externe</strong>
+        <div class="footer-list small">
+          <a href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Blog</a>
+          <a href="https://github.com/m4rv4x" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/status.js" defer></script>
 </body>
 </html>
