@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Marvax — espace utilisateur</title>
-  <meta name="description" content="Page d’accès à l’espace utilisateur Marvax avec vérification de disponibilité avant redirection." />
+  <title>Marvax — accès utilisateur</title>
+  <meta name="description" content="Point d’accès public vers le portail utilisateur Marvax et rappel des surfaces associées." />
   <link rel="canonical" href="https://marvax.fun/user" />
   <link rel="stylesheet" href="/assets/site.css" />
 </head>
@@ -14,9 +14,9 @@
       <a class="brand" href="/index.html"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></a>
       <nav class="nav-links" aria-label="Navigation principale">
         <a href="/index.html">Accueil</a>
-        <a href="/docs.html">Docs</a>
+        <a href="/docs.html">Ressources</a>
         <a href="/status.html">Statut</a>
-        <a href="/privacy.html">Privacy</a>
+        <a href="/privacy.html">Confidentialité</a>
       </nav>
     </div>
   </header>
@@ -24,11 +24,10 @@
   <main class="page-hero">
     <div class="wrapper stack">
       <section class="panel">
-        <div class="kicker">Portail utilisateur</div>
-        <h1>Accès direct, sans faux check.</h1>
+        <div class="kicker">Accès utilisateur</div>
+        <h1>Entrée publique vers le portail.</h1>
         <p class="lead">
-          Le portail utilisateur est servi sur une surface externe. Cette page n’annonce pas un état approximatif : elle te donne l’accès direct,
-          le lien health public et la page statut pour vérifier le contexte avant d’ouvrir la surface.
+          Cette page ne joue pas au proxy magique. Elle te donne l’URL publique du portail, le lien vers le healthcheck et la page statut pour vérifier le contexte avant d’ouvrir la surface applicative.
         </p>
       </section>
 
@@ -39,12 +38,12 @@
             <p><code>https://api.marvax.fun/user</code></p>
           </div>
           <div class="listing-item">
-            <strong>Health API</strong>
+            <strong>Healthcheck public</strong>
             <p><code>https://api.marvax.fun/health</code></p>
           </div>
           <div class="listing-item">
-            <strong>Pourquoi pas de verdict “online” ici ?</strong>
-            <p>Depuis une page statique, le navigateur n’a pas toujours un signal CORS fiable pour évaluer proprement cette surface sans faux positif.</p>
+            <strong>Contexte</strong>
+            <p>Si la surface n’est pas ouverte ou ne répond pas, la page statut publique reste le bon point de contrôle côté vitrine.</p>
           </div>
         </div>
 
@@ -61,14 +60,14 @@
     <div class="wrapper panel footer-grid">
       <div>
         <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
-        <p class="small">Porte d’entrée publique vers l’espace utilisateur quand il répond.</p>
+        <p class="small">Point d’entrée vers la surface utilisateur quand elle est ouverte publiquement.</p>
       </div>
       <div class="footer-list small">
         <a href="/index.html">Accueil</a>
         <a href="/status.html">Statut</a>
       </div>
       <div class="footer-list small">
-        <a href="/docs.html">Docs</a>
+        <a href="/docs.html">Ressources</a>
         <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
       </div>
     </div>

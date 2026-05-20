@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Marvax — statut public</title>
-  <meta name="description" content="Statut public des surfaces suivies par Marvax : site principal, blog, health API et portail utilisateur." />
+  <meta name="description" content="Suivi public des surfaces visibles de Marvax, avec distinction entre checks navigateur et vérifications manuelles." />
   <link rel="canonical" href="https://marvax.fun/status" />
   <link rel="stylesheet" href="/assets/site.css" />
 </head>
@@ -14,9 +14,9 @@
       <a class="brand" href="/index.html"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></a>
       <nav class="nav-links" aria-label="Navigation principale">
         <a href="/index.html">Accueil</a>
-        <a href="/docs.html">Docs</a>
-        <a href="/user.html">Portail</a>
-        <a href="/privacy.html">Privacy</a>
+        <a href="/docs.html">Ressources</a>
+        <a href="/user.html">Accès</a>
+        <a href="/privacy.html">Confidentialité</a>
       </nav>
     </div>
   </header>
@@ -25,10 +25,9 @@
     <div class="wrapper stack">
       <section class="panel">
         <div class="kicker">Statut public</div>
-        <h1>Disponibilité réelle des surfaces suivies.</h1>
+        <h1>Lecture honnête des surfaces exposées.</h1>
         <p class="lead">
-          Cette page ne marque automatiquement que les surfaces que le navigateur peut vérifier sans ambiguïté. Les entrées API et portail restent exposées,
-          mais ne sont pas annoncées “up” sans signal exploitable côté client.
+          Cette page suit les surfaces que le navigateur peut réellement confirmer. Les entrées applicatives et endpoints qui demandent une vérification différente restent listés, mais ne sont pas maquillés en “up” sans signal fiable.
         </p>
       </section>
 
@@ -36,7 +35,7 @@
         <div class="status-board" data-status-board data-interval="60000" data-timeout="8000">
           <div class="status-overview">
             <div>
-              <strong>État global vérifiable</strong>
+              <strong>Checks navigateur</strong>
               <p class="small">Dernière vérification : <span data-role="timestamp">—</span></p>
             </div>
             <span class="badge-neutral" data-role="overall">En attente de vérification</span>
@@ -47,33 +46,11 @@
               <div class="status-row">
                 <div>
                   <h3>marvax.fun</h3>
-                  <div class="status-url">Homepage publique</div>
+                  <div class="status-url">Vitrine principale</div>
                 </div>
                 <span class="status-time" data-role="time">—</span>
               </div>
               <div class="status-label"><span class="status-dot checking" data-role="dot"></span><span data-role="label">Checking</span></div>
-            </article>
-
-            <article class="status-card">
-              <div class="status-row">
-                <div>
-                  <h3>api.marvax.fun/health</h3>
-                  <div class="status-url">Health API</div>
-                </div>
-                <span class="status-time">manuel</span>
-              </div>
-              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Non vérifié depuis le navigateur</span></div>
-            </article>
-
-            <article class="status-card">
-              <div class="status-row">
-                <div>
-                  <h3>api.marvax.fun/user</h3>
-                  <div class="status-url">Portail utilisateur</div>
-                </div>
-                <span class="status-time">manuel</span>
-              </div>
-              <div class="status-label"><span class="status-dot" style="background:#94a3b8"></span><span>Ouvrir via la page portail</span></div>
             </article>
 
             <article class="status-card" data-service-url="https://blog.marvax.fun">
@@ -91,6 +68,20 @@
       </section>
 
       <section class="page-block">
+        <h2>Vérifications manuelles</h2>
+        <div class="listing">
+          <div class="listing-item">
+            <strong>Portail utilisateur</strong>
+            <p><code>https://api.marvax.fun/user</code> — surface applicative séparée, à ouvrir depuis la page d’accès si nécessaire.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Health API</strong>
+            <p><code>https://api.marvax.fun/health</code> — point d’entrée public listé sans verdict client trompeur.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-block">
         <h2>Interprétation</h2>
         <div class="listing">
           <div class="listing-item">
@@ -99,11 +90,11 @@
           </div>
           <div class="listing-item">
             <strong>Indisponible</strong>
-            <p>La surface vérifiable ne répond pas dans le délai imparti ou déclenche une erreur côté navigateur.</p>
+            <p>La surface observable ne répond pas dans le délai prévu ou échoue côté navigateur.</p>
           </div>
           <div class="listing-item">
-            <strong>Non vérifié depuis le navigateur</strong>
-            <p>La surface est listée comme point d’entrée public, mais ce site statique ne dispose pas d’un signal client fiable pour l’évaluer sans faux positif.</p>
+            <strong>Manuel</strong>
+            <p>La surface existe publiquement, mais cette page ne dispose pas d’un signal client suffisant pour produire un verdict fiable.</p>
           </div>
         </div>
       </section>
@@ -114,14 +105,14 @@
     <div class="wrapper panel footer-grid">
       <div>
         <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
-        <p class="small">Page dédiée au suivi public des surfaces exposées.</p>
+        <p class="small">Suivi public des surfaces visibles sans faux positifs.</p>
       </div>
       <div class="footer-list small">
         <a href="/index.html">Accueil</a>
-        <a href="/docs.html">Docs</a>
+        <a href="/docs.html">Ressources</a>
       </div>
       <div class="footer-list small">
-        <a href="/user.html">Portail</a>
+        <a href="/user.html">Accès utilisateur</a>
         <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
       </div>
     </div>

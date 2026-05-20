@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Marvax — documentation utile</title>
-  <meta name="description" content="Documentation publique minimale pour Marvax : endpoints visibles, portail, statut et liens utiles." />
+  <title>Marvax — ressources publiques</title>
+  <meta name="description" content="Ressources publiques Marvax : blog, GitHub, page statut, accès utilisateur et périmètre public." />
   <link rel="canonical" href="https://marvax.fun/docs" />
   <link rel="stylesheet" href="/assets/site.css" />
 </head>
@@ -15,8 +15,8 @@
       <nav class="nav-links" aria-label="Navigation principale">
         <a href="/index.html">Accueil</a>
         <a href="/status.html">Statut</a>
-        <a href="/user.html">Portail</a>
-        <a href="/privacy.html">Privacy</a>
+        <a href="/user.html">Accès</a>
+        <a href="/privacy.html">Confidentialité</a>
       </nav>
     </div>
   </header>
@@ -24,71 +24,75 @@
   <main class="page-hero">
     <div class="wrapper stack">
       <section class="panel">
-        <div class="kicker">Documentation utile</div>
-        <h1>Seulement les points d’entrée publics valides.</h1>
+        <div class="kicker">Ressources publiques</div>
+        <h1>Les bonnes destinations, sans bruit inutile.</h1>
         <p class="lead">
-          Cette page évite les références obsolètes. Elle conserve uniquement les URLs et surfaces que le site public est censé exposer : homepage, portail, healthcheck API, blog et page statut.
+          Cette page sert d’index public compact. Elle ne cherche pas à documenter des surfaces internes ou des routes anciennes : elle centralise uniquement les liens utiles publiquement.
         </p>
       </section>
 
       <section class="page-block">
-        <h2>Endpoints visibles</h2>
+        <h2>Commencer ici</h2>
+        <div class="link-grid">
+          <a class="link-card" href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">
+            <strong>Blog</strong>
+            <p>Billets, notes, idées et publications visibles publiquement.</p>
+          </a>
+          <a class="link-card" href="https://github.com/m4rv4x" target="_blank" rel="noopener noreferrer">
+            <strong>GitHub</strong>
+            <p>Dépôts publics, prototypes et références de code.</p>
+          </a>
+          <a class="link-card" href="/status.html">
+            <strong>Statut public</strong>
+            <p>Lecture claire des surfaces actuellement observables depuis le navigateur.</p>
+          </a>
+          <a class="link-card" href="/user.html">
+            <strong>Accès utilisateur</strong>
+            <p>Page d’orientation vers le portail quand la surface applicative est ouverte.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="page-block">
+        <h2>Surfaces listées</h2>
         <div class="listing">
           <div class="listing-item">
             <strong>Homepage</strong>
             <p><code>https://marvax.fun/</code></p>
           </div>
           <div class="listing-item">
-            <strong>Statut public</strong>
-            <p><code>https://marvax.fun/status</code> ou <code>/status.html</code></p>
+            <strong>Page statut</strong>
+            <p><code>https://marvax.fun/status</code> / <code>/status.html</code></p>
           </div>
           <div class="listing-item">
-            <strong>Health API</strong>
-            <p><code>https://api.marvax.fun/health</code></p>
-          </div>
-          <div class="listing-item">
-            <strong>Portail utilisateur</strong>
-            <p><code>https://api.marvax.fun/user</code></p>
+            <strong>Page d’accès utilisateur</strong>
+            <p><code>https://marvax.fun/user</code> / <code>/user.html</code></p>
           </div>
           <div class="listing-item">
             <strong>Blog</strong>
             <p><code>https://blog.marvax.fun</code></p>
           </div>
+          <div class="listing-item">
+            <strong>GitHub</strong>
+            <p><code>https://github.com/m4rv4x</code></p>
+          </div>
         </div>
       </section>
 
       <section class="page-block">
-        <h2>Checks rapides</h2>
-        <div class="docs-grid">
-          <article class="doc-card">
-            <strong>Health API</strong>
-            <pre><code>curl https://api.marvax.fun/health</code></pre>
-          </article>
-          <article class="doc-card">
-            <strong>Portail utilisateur</strong>
-            <pre><code>open https://api.marvax.fun/user</code></pre>
-          </article>
-          <article class="doc-card">
-            <strong>Statut public</strong>
-            <pre><code>open https://marvax.fun/status</code></pre>
-          </article>
-          <article class="doc-card">
-            <strong>Blog</strong>
-            <pre><code>open https://blog.marvax.fun</code></pre>
-          </article>
-        </div>
-      </section>
-
-      <section class="page-block">
-        <h2>Remarques</h2>
+        <h2>Ce qui n’est pas exposé ici</h2>
         <div class="listing">
           <div class="listing-item">
-            <strong>Pas de routes fantômes</strong>
-            <p>Les anciennes routes non servies publiquement ne sont plus référencées depuis cette version du site.</p>
+            <strong>Surfaces internes</strong>
+            <p>Les interfaces d’administration, les points internes et les couches non publiques ne sont pas listés sur cette vitrine.</p>
           </div>
           <div class="listing-item">
-            <strong>Pas de surfaces internes</strong>
-            <p>Les interfaces internes ou d’admin n’ont pas leur place sur cette vitrine publique et ne sont donc pas listées ici.</p>
+            <strong>Routes obsolètes</strong>
+            <p>Les anciennes routes “placeholder” ou non servies publiquement ont été retirées des pages publiques.</p>
+          </div>
+          <div class="listing-item">
+            <strong>Faux diagnostics</strong>
+            <p>Le site évite de déclarer une surface “online” sans signal fiable observable depuis le navigateur.</p>
           </div>
         </div>
       </section>
@@ -99,15 +103,15 @@
     <div class="wrapper panel footer-grid">
       <div>
         <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>Marvax</span></div>
-        <p class="small">Documentation publique compacte et volontairement limitée à l’utile.</p>
+        <p class="small">Index compact des liens publics et destinations utiles.</p>
       </div>
       <div class="footer-list small">
         <a href="/index.html">Accueil</a>
         <a href="/status.html">Statut</a>
       </div>
       <div class="footer-list small">
-        <a href="/user.html">Portail</a>
-        <a href="https://blog.marvax.fun" target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="/user.html">Accès utilisateur</a>
+        <a href="mailto:hello@marvax.fun">hello@marvax.fun</a>
       </div>
     </div>
   </footer>
