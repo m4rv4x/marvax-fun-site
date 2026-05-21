@@ -3,76 +3,76 @@
     loginCards: [
       {
         title: 'Blog',
-        body: 'Billets, notes et publications publiques pour suivre les idées, les itérations et les points visibles.',
-        cta: 'Open blog',
+        body: 'Le journal public de Marvax: notes, billets et avancées publiés au fil de l’eau.',
+        cta: 'Lire le blog',
         href: 'https://blog.marvax.fun'
       },
       {
         title: 'GitHub',
-        body: 'Dépôts publics, prototypes et références de code disponibles depuis le profil principal.',
-        cta: 'Open GitHub',
+        body: 'Dépôts publics, prototypes et chantiers techniques visibles depuis le profil principal.',
+        cta: 'Voir GitHub',
         href: 'https://github.com/m4rv4x'
       },
       {
-        title: 'Resources',
-        body: 'Pages compactes pour retrouver rapidement les surfaces publiques, le statut et les liens utiles.',
-        cta: 'Open resources',
+        title: 'Ressources',
+        body: 'Une page courte pour retrouver les liens utiles, la documentation et le statut public.',
+        cta: 'Voir les ressources',
         href: '/docs.html'
       },
       {
-        title: 'User access',
-        body: 'Entrée publique vers la surface utilisateur quand la stack exposée est effectivement ouverte.',
-        cta: 'Open access',
+        title: 'Accès utilisateur',
+        body: 'Point d’entrée public quand un espace utilisateur est réellement ouvert.',
+        cta: 'Ouvrir l’accès',
         href: '/user.html'
       }
     ],
     docsCards: [
       {
-        heading: 'Blog & notes',
-        badge: 'Public writing',
-        body: 'Le blog sert de canal principal pour les notes, les billets et les contenus publics à suivre.',
+        heading: 'Blog',
+        badge: 'Notes publiques',
+        body: 'Articles, notes et publications qui donnent du contexte sur les projets en cours.',
         code: 'https://blog.marvax.fun'
       },
       {
-        heading: 'GitHub & code',
-        badge: 'Repositories',
-        body: 'Le profil GitHub regroupe les dépôts publics, les prototypes et les références techniques visibles.',
+        heading: 'GitHub',
+        badge: 'Code public',
+        body: 'Le profil principal rassemble les dépôts publics, les prototypes et les références techniques.',
         code: 'https://github.com/m4rv4x'
       },
       {
-        heading: 'Status & access',
-        badge: 'Public entry points',
-        body: 'La page statut et la page d’accès gardent la lecture publique claire sans exposer de surfaces internes.',
-        code: 'https://marvax.fun/status\nhttps://marvax.fun/user'
+        heading: 'Docs & status',
+        badge: 'Pages utiles',
+        body: 'Les pages docs, status et user servent de repères publics. Elles pointent vers ce qui existe vraiment.',
+        code: 'https://marvax.fun/docs\nhttps://marvax.fun/status\nhttps://marvax.fun/user'
       }
     ],
     statusCards: [
       {
-        label: 'Homepage',
+        label: 'Accueil',
         title: 'https://marvax.fun',
-        body: 'Vitrine principale, contexte, ressources et liens publics utiles.',
-        cta: 'Open home',
+        body: 'Page principale, navigation et vue d’ensemble.',
+        cta: 'Voir l’accueil',
         href: '/index.html'
       },
       {
         label: 'Blog',
         title: 'https://blog.marvax.fun',
-        body: 'Publications, billets et notes visibles publiquement.',
-        cta: 'Open blog',
+        body: 'Journal public et publications.',
+        cta: 'Voir le blog',
         href: 'https://blog.marvax.fun'
       },
       {
-        label: 'Access',
-        title: 'https://api.marvax.fun/user',
-        body: 'Entrée applicative publique quand la surface utilisateur est réellement ouverte.',
-        cta: 'Access page',
+        label: 'Accès',
+        title: 'https://marvax.fun/user',
+        body: 'Page d’accès public quand un espace utilisateur est disponible.',
+        cta: 'Voir l’accès',
         href: '/user.html'
       },
       {
         label: 'Status',
         title: 'https://marvax.fun/status',
-        body: 'Lecture publique du statut des surfaces observables et des points à vérifier manuellement.',
-        cta: 'Open status',
+        body: 'Résumé public de ce qui est visible et maintenu.',
+        cta: 'Voir le status',
         href: '/status.html'
       }
     ]
@@ -80,6 +80,11 @@
 
   const setText = (el, text) => {
     if (el) el.textContent = text;
+  };
+
+  const setMeta = (selector, content) => {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute('content', content);
   };
 
   const setLink = (el, { text, href }) => {
@@ -110,11 +115,10 @@
   };
 
   const applyHead = () => {
-    document.title = 'Marvax — laboratoire d’agents, de projets et de signaux publics';
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc) {
-      desc.content = 'Marvax est un laboratoire personnel autour des agents, des projets visibles, des ressources publiques et du suivi de disponibilité.';
-    }
+    document.title = 'Marvax — projets, notes et accès publics';
+    setMeta('meta[name="description"]', 'Marvax rassemble un blog, des dépôts publics et quelques pages utiles pour naviguer simplement entre les surfaces visibles.');
+    setMeta('meta[property="og:title"]', 'Marvax — projets, notes et accès publics');
+    setMeta('meta[property="og:description"]', 'Une vitrine sobre pour suivre les projets visibles, les notes publiques et les points d’accès réellement utiles.');
   };
 
   function patchHero() {
@@ -126,10 +130,10 @@
     const navLabels = ['Aperçu', 'Ressources', 'Statut', 'Contact'];
     hero.querySelectorAll('nav button span').forEach((span, index) => setText(span, navLabels[index] || span.textContent));
 
-    setText(hero.querySelector('h1'), 'AGENTS THAT ACT');
+    setText(hero.querySelector('h1'), 'PROJECTS IN PUBLIC');
     setText(
       hero.querySelector('p[code-path="src/sections/Hero.tsx:151:9"]'),
-      'Laboratoire personnel autour des agents, des projets visibles, des ressources publiques et des signaux qui méritent vraiment d’être suivis.'
+      'Marvax regroupe ici ses notes, ses projets visibles et les quelques pages utiles qui servent vraiment côté public.'
     );
 
     const ctaContainer = hero.querySelector('div[code-path="src/sections/Hero.tsx:159:9"]');
@@ -150,8 +154,8 @@
     }
 
     const statusBits = hero.querySelectorAll('div[code-path="src/sections/Hero.tsx:179:7"] p');
-    setText(statusBits[0], 'PUBLIC SIGNAL');
-    setText(statusBits[1], 'blog.marvax.fun • live');
+    setText(statusBits[0], 'PUBLIC LINKS');
+    setText(statusBits[1], 'blog.marvax.fun • online');
 
     hero.dataset.roguePatched = '1';
     return true;
@@ -163,20 +167,20 @@
 
     const ps = section.querySelectorAll('p');
     setText(ps[0], 'Aperçu');
-    setText(section.querySelector('h2'), 'PROJECTS AND ENTRY POINTS');
-    setText(ps[1], 'Cette partie de la vitrine rassemble les points d’entrée publics les plus utiles : blog, GitHub, ressources compactes et accès utilisateur quand la surface est ouverte.');
+    setText(section.querySelector('h2'), 'WHAT TO OPEN FIRST');
+    setText(ps[1], 'Pas de faux portail ici. Cette section sert d’index public vers le blog, le code, les ressources et l’accès utilisateur quand il existe.');
 
     const topLinks = section.querySelectorAll('div[code-path="src/sections/AlbumCube.tsx:45:13"] a');
-    setLink(topLinks[0], { text: 'Open blog', href: 'https://blog.marvax.fun' });
-    setLink(topLinks[1], { text: 'Open GitHub', href: 'https://github.com/m4rv4x' });
+    setLink(topLinks[0], { text: 'Lire le blog', href: 'https://blog.marvax.fun' });
+    setLink(topLinks[1], { text: 'Voir GitHub', href: 'https://github.com/m4rv4x' });
 
-    setText(ps[2], 'Public flow');
-    setText(ps[3], '1. Read');
-    setText(ps[4], 'Billets, notes et publications publiques depuis le blog.');
-    setText(ps[5], '2. Explore');
-    setText(ps[6], 'Code, prototypes et références techniques depuis GitHub.');
-    setText(ps[7], '3. Check');
-    setText(ps[8], 'Pages ressources, statut et accès pour garder une lecture publique propre.');
+    setText(ps[2], 'Par où commencer');
+    setText(ps[3], '1. Lire');
+    setText(ps[4], 'Le blog concentre les notes, billets et annonces publiques.');
+    setText(ps[5], '2. Explorer');
+    setText(ps[6], 'GitHub montre le code, les prototypes et les dépôts vivants.');
+    setText(ps[7], '3. Vérifier');
+    setText(ps[8], 'Les pages ressources et status donnent une vue simple des entrées publiques.');
 
     const articles = section.querySelectorAll('article');
     articles.forEach((article, index) => {
@@ -199,17 +203,17 @@
     if (!section || section.dataset.roguePatched === '1') return false;
 
     const ps = section.querySelectorAll('p');
-    setText(ps[0], 'Resources');
-    setText(section.querySelector('h2'), 'PUBLIC RESOURCES AND REFERENCE POINTS');
-    setText(ps[1], 'Cette partie regroupe les destinations utiles publiquement : contenus, code, statut et accès. Elle ne cherche pas à refléter les surfaces internes ou d’admin.');
+    setText(ps[0], 'Ressources');
+    setText(section.querySelector('h2'), 'PUBLIC PAGES AND REFERENCES');
+    setText(ps[1], 'Cette partie rassemble les pages qui servent vraiment: contenus, code, statut et accès public. Pas de promesse floue, pas de route morte.');
     setText(ps[2], 'Blog');
-    setText(ps[3], 'Billets, notes et publications visibles');
+    setText(ps[3], 'Notes et billets');
     setText(ps[4], 'GitHub');
-    setText(ps[5], 'Dépôts publics et prototypes');
+    setText(ps[5], 'Code et prototypes');
     setText(ps[6], 'Status');
-    setText(ps[7], 'Lecture honnête des surfaces visibles');
-    setText(ps[8], 'Access');
-    setText(ps[9], 'Entrées publiques à vérifier proprement');
+    setText(ps[7], 'Vue publique');
+    setText(ps[8], 'Accès');
+    setText(ps[9], 'Entrée utilisateur');
 
     const articles = section.querySelectorAll('article');
     articles.forEach((article, index) => {
@@ -225,8 +229,8 @@
     });
 
     const links = section.querySelectorAll('a');
-    setLink(links[0], { text: 'Open resources page', href: '/docs.html' });
-    setLink(links[1], { text: 'Open live status', href: '/status.html' });
+    setLink(links[0], { text: 'Voir les ressources', href: '/docs.html' });
+    setLink(links[1], { text: 'Voir le status', href: '/status.html' });
 
     section.dataset.roguePatched = '1';
     return true;
@@ -237,9 +241,9 @@
     if (!section || section.dataset.roguePatched === '1') return false;
 
     const ps = section.querySelectorAll('p');
-    setText(ps[0], 'Surfaces');
-    setText(section.querySelector('h2'), 'PUBLIC SURFACES AND TRUSTED SIGNALS');
-    setText(ps[1], 'La vitrine garde ici une lecture simple : les surfaces visibles, leur rôle public et la bonne destination pour aller plus loin sans faux état applicatif.');
+    setText(ps[0], 'Statut');
+    setText(section.querySelector('h2'), 'PUBLIC SURFACES');
+    setText(ps[1], 'Ici, la vitrine montre seulement les surfaces publiques maintenues et la bonne page pour vérifier ce qui est réellement accessible.');
 
     const articles = section.querySelectorAll('article');
     articles.forEach((article, index) => {
@@ -254,8 +258,8 @@
       setLink(link, { text: data.cta, href: data.href });
     });
 
-    setText(ps[10], 'Monitoring note');
-    setText(ps[11], 'Le statut détaillé vit sur la page dédiée. La homepage reste une vitrine et liste les points publics sans inventer de verdict quand aucun signal fiable n’est disponible.');
+    setText(ps[10], 'Note');
+    setText(ps[11], 'La page d’accueil reste une vitrine. La page status concentre les vérifications et évite les faux voyants verts sur des services qui ne sont pas publics.');
 
     section.dataset.roguePatched = '1';
     return true;
@@ -270,12 +274,12 @@
     const platformPs = section.querySelectorAll('p[code-path="src/sections/Footer.tsx:111:11"], p[code-path="src/sections/Footer.tsx:115:11"]');
     const mainDesc = section.querySelector('p[code-path="src/sections/Footer.tsx:135:15"]');
 
-    setText(h2, 'KEEP THE SIGNAL CLEAR');
-    setText(topP, 'Public notes, useful tools, honest status');
-    setText(platformPs[0], 'PUBLIC FRONT DOOR');
+    setText(h2, 'KEEP IT SIMPLE');
+    setText(topP, 'Notes publiques, code utile, accès propres');
+    setText(platformPs[0], 'MARVAX');
     setText(section.querySelector('h3[code-path="src/sections/Footer.tsx:114:11"]'), 'MARVAX');
-    setText(platformPs[1], 'Agents · tools · notes');
-    setText(mainDesc, 'Vitrine personnelle pour suivre les surfaces publiques, retrouver les ressources utiles et pointer vers les projets visibles sans exposer le reste.');
+    setText(platformPs[1], 'Projets · notes · surfaces publiques');
+    setText(mainDesc, 'Marvax sert ici de vitrine sobre: un blog, des dépôts publics, quelques pages utiles et un point d’accès quand il existe.');
 
     const social = section.querySelectorAll('a[code-path="src/sections/Footer.tsx:143:21"]');
     if (social[1]) {
@@ -285,6 +289,9 @@
       social[1].setAttribute('aria-label', 'Blog');
     }
     if (social[0]) {
+      social[0].href = 'https://github.com/m4rv4x';
+      social[0].target = '_blank';
+      social[0].rel = 'noopener noreferrer';
       social[0].setAttribute('aria-label', 'GitHub');
     }
 
@@ -292,7 +299,7 @@
     [
       { text: 'Blog', href: 'https://blog.marvax.fun' },
       { text: 'GitHub', href: 'https://github.com/m4rv4x' },
-      { text: 'Resources', href: '/docs.html' },
+      { text: 'Ressources', href: '/docs.html' },
       { text: 'Status', href: '/status.html' },
       { text: 'Privacy', href: '/privacy.html' }
     ].forEach((item, index) => setLink(quickLinks[index], item));
@@ -311,21 +318,25 @@
     setText(contactValues[1], 'blog.marvax.fun');
     setText(contactValues[2], 'github.com/m4rv4x');
 
-    setText(section.querySelector('h4[code-path="src/sections/Footer.tsx:210:15"]'), 'Start Here');
-    setText(section.querySelector('p[code-path="src/sections/Footer.tsx:213:15"]'), 'Open the resources page or jump to public status from here.');
+    setText(section.querySelector('h4[code-path="src/sections/Footer.tsx:210:15"]'), 'Commencer ici');
+    setText(section.querySelector('p[code-path="src/sections/Footer.tsx:213:15"]'), 'Ouvre les ressources ou le status public selon ce que tu cherches.');
     const input = section.querySelector('input[code-path="src/sections/Footer.tsx:217:17"]');
-    if (input) input.classList.add('rogue-hidden');
+    if (input) {
+      input.value = '';
+      input.style.display = 'none';
+    }
     const button = section.querySelector('button[code-path="src/sections/Footer.tsx:222:17"]');
     if (button) {
-      button.textContent = 'Open resources';
-      button.classList.add('rogue-footer-button');
+      button.textContent = 'Voir les ressources';
+      button.style.minWidth = '12rem';
+      button.style.justifyContent = 'center';
       button.onclick = () => { window.location.href = '/docs.html'; };
     }
 
     const bottomLinks = section.querySelectorAll('a[code-path="src/sections/Footer.tsx:268:17"]');
     [
       { text: 'Privacy', href: '/privacy.html' },
-      { text: 'Resources', href: '/docs.html' },
+      { text: 'Ressources', href: '/docs.html' },
       { text: 'Blog', href: 'https://blog.marvax.fun' },
       { text: 'Status', href: '/status.html' }
     ].forEach((item, index) => setLink(bottomLinks[index], item));
