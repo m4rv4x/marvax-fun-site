@@ -5,10 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marvax — IA et agents autonomes</title>
     <meta name="description" content="IA appliquee, agents autonomes 24/24, automatisation, code, infrastructure et surfaces publiques. Une vitrine sombre, technique et directe." />
+    <style>
+      .ai-ops-note__wrap {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .ai-ops-note__label {
+        margin: 0 0 0.9rem;
+        color: rgba(183, 232, 245, 0.72);
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .ai-ops-note__text {
+        margin: 0;
+        color: rgba(232, 237, 246, 0.72);
+        font-size: 0.98rem;
+        line-height: 1.85;
+        text-wrap: pretty;
+      }
+
+      .ai-ops-note--hero {
+        width: min(960px, 100%);
+        margin-top: 1.75rem;
+        text-align: center;
+      }
+
+      .ai-ops-note--hero .ai-ops-note__label,
+      .ai-ops-note--hero .ai-ops-note__text {
+        text-align: center;
+      }
+
+      .ai-ops-note--albums {
+        max-width: 34rem;
+        margin-top: 1rem;
+      }
+
+      .ai-ops-note--albums .ai-ops-note__text {
+        font-size: 0.88rem;
+        line-height: 1.75;
+        color: rgba(232, 237, 246, 0.66);
+      }
+
+      .ai-ops-note--gallery,
+      .ai-ops-note--tour {
+        max-width: 58rem;
+        margin-top: 1.25rem;
+      }
+
+      .ai-ops-note--contact {
+        margin-top: 1.25rem;
+      }
+
+      .ai-ops-note--contact .ai-ops-note__text {
+        color: rgba(232, 237, 246, 0.62);
+      }
+
+      @media (max-width: 768px) {
+        .ai-ops-note--hero,
+        .ai-ops-note--albums,
+        .ai-ops-note--gallery,
+        .ai-ops-note--tour,
+        .ai-ops-note--contact {
+          max-width: 100%;
+          margin-top: 1rem;
+        }
+
+        .ai-ops-note__text {
+          font-size: 0.92rem;
+          line-height: 1.75;
+        }
+
+        .ai-ops-note--albums .ai-ops-note__text {
+          font-size: 0.84rem;
+        }
+      }
+    </style>
     <script type="module" crossorigin src="/assets/index-g07RtEsC.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-2u8pNqoS.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (() => {
+        const notes = [
+          {
+            key: 'hero',
+            label: 'AI runtime / intent layer',
+            text: "Je ne traite pas l'IA comme une simple interface de chat ou un gadget de productivite. Ce qui m'interesse, c'est la construction d'un runtime utile: des agents capables de lire un contexte, de raisonner sur un objectif, d'appeler des outils, de conserver un etat de travail et de revenir avec une sortie exploitable. L'enjeu n'est pas de produire une belle demo, mais de faire tenir un systeme dans la duree, sous contrainte, avec des entrees imparfaites, des dependances instables et des decisions qui doivent rester tracables."
+          },
+          {
+            key: 'albums',
+            label: 'Recon / signal extraction',
+            text: "L'approche est clairement inspiree du monde hacking: reconnaissance, enumeration, correlation, reduction du bruit, exploitation des signaux faibles, puis enchainement d'actions concretes. Un bon agent ne doit pas juste repondre; il doit inspecter, verifier, recouper, detecter les impasses, relancer une piste et documenter ce qu'il fait. Dans ce cadre, l'IA devient une couche d'orchestration offensive et defensive a la fois: elle peut explorer un perimetre technique, assister l'analyse de code, accelerer l'investigation, extraire des anomalies dans les logs et transformer une masse de donnees brutes en plan d'action."
+          },
+          {
+            key: 'gallery',
+            label: 'Multi-agent orchestration',
+            text: "L'orchestration multi-agents commence quand un seul modele ne suffit plus. Il faut router les taches, choisir le bon outil, distribuer les etapes entre specialistes, gerer les retries, controler la latence, limiter le cout et maintenir une memoire de session assez propre pour ne pas se noyer dans son propre contexte. Un agent peut surveiller, un autre analyser, un autre ecrire, un autre verifier, puis un dernier produire un rapport ou ouvrir la bonne action humaine. Le vrai sujet n'est pas l'effet waouh du modele, mais la qualite du pipeline, la discipline des permissions et la capacite a faire circuler l'information sans casser la chaine."
+          },
+          {
+            key: 'tour',
+            label: 'Security / control plane',
+            text: "Cette logique impose une hygiene technique stricte. Isolation des secrets, perimetres d'action limites, journaux d'execution, traces lisibles, garde-fous sur les appels reseau, validation des sorties et points de reprise propres quand une etape echoue. Plus un agent devient autonome, plus la surface de risque augmente. L'autonomie n'a de valeur que si elle reste gouvernable: droits minimaux, auditabilite, observabilite, et possibilite de remettre un humain dans la boucle au bon moment, non pas pour micro-gerer, mais pour arbitrer les cas ambigus, sensibles ou irreversibles."
+          },
+          {
+            key: 'contact',
+            label: '24/24 execution',
+            text: "C'est dans cette zone que je veux pousser le site: montrer des systemes qui tournent vraiment, 24/24, comme une couche de veille offensive permanente. Des agents qui sniffent un perimetre, correlent les signaux faibles, preparent des hypotheses d'exploitation, enrichissent un dossier technique, declenchent des actions et ne remontent a l'humain que ce qui merite un arbitrage ou une decision irreversible. Pas de theatre marketing autour de l'IA: seulement des machines branchees sur le reel, une culture ops, une mentalite offensive et une execution continue."
+          }
+        ];
+
+        const targets = {
+          hero: () => ({
+            anchor: document.querySelector('div[code-path="src/sections/Hero.tsx:155:9"]'),
+            method: 'afterend'
+          }),
+          albums: () => ({
+            anchor: document.querySelector('div[code-path="src/sections/AlbumCube.tsx:163:7"]'),
+            method: 'beforeend'
+          }),
+          gallery: () => ({
+            anchor: document.querySelector('div[code-path="src/sections/ParallaxGallery.tsx:103:9"]'),
+            method: 'beforeend'
+          }),
+          tour: () => ({
+            anchor: document.querySelector('div[code-path="src/sections/TourSchedule.tsx:92:9"]'),
+            method: 'beforeend'
+          }),
+          contact: () => ({
+            anchor: document.querySelector('p[code-path="src/sections/Footer.tsx:129:15"]'),
+            method: 'afterend'
+          })
+        };
+
+        function buildNote(note) {
+          const section = document.createElement('div');
+          section.className = `ai-ops-note ai-ops-note--${note.key}`;
+          section.setAttribute('data-ai-note', note.key);
+
+          const wrap = document.createElement('div');
+          wrap.className = 'ai-ops-note__wrap';
+
+          const label = document.createElement('p');
+          label.className = 'ai-ops-note__label';
+          label.textContent = note.label;
+
+          const text = document.createElement('p');
+          text.className = 'ai-ops-note__text';
+          text.textContent = note.text;
+
+          wrap.appendChild(label);
+          wrap.appendChild(text);
+          section.appendChild(wrap);
+
+          return section;
+        }
+
+        function injectNotes() {
+          const main = document.querySelector('#root main');
+          if (!main) return false;
+
+          notes.forEach((note) => {
+            const existing = document.querySelector(`[data-ai-note="${note.key}"]`);
+            if (existing) existing.remove();
+
+            const targetConfig = targets[note.key] && targets[note.key]();
+            if (!targetConfig || !targetConfig.anchor) return;
+
+            const noteNode = buildNote(note);
+            if (targetConfig.method === 'beforeend') {
+              targetConfig.anchor.appendChild(noteNode);
+            } else {
+              targetConfig.anchor.insertAdjacentElement(targetConfig.method || 'afterend', noteNode);
+            }
+          });
+
+          return true;
+        }
+
+        if (injectNotes()) return;
+
+        let attempts = 0;
+        const timer = setInterval(() => {
+          attempts += 1;
+          if (injectNotes() || attempts > 120) clearInterval(timer);
+        }, 150);
+      })();
+    </script>
   </body>
 </html>
