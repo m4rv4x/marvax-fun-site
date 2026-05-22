@@ -51,23 +51,25 @@
       }
 
       .ai-ops-note--gallery,
+      .ai-ops-note--ships,
       .ai-ops-note--tour {
         max-width: 58rem;
         margin-top: 1.25rem;
       }
 
-      .ai-ops-note--contact {
-        margin-top: 1.25rem;
+      .ai-ops-note--tour .ai-ops-note__label {
+        color: rgba(31, 31, 31, 0.62);
       }
 
-      .ai-ops-note--contact .ai-ops-note__text {
-        color: rgba(232, 237, 246, 0.62);
+      .ai-ops-note--tour .ai-ops-note__text {
+        color: rgba(31, 31, 31, 0.72);
       }
 
       @media (max-width: 768px) {
         .ai-ops-note--hero,
         .ai-ops-note--albums,
         .ai-ops-note--gallery,
+        .ai-ops-note--ships,
         .ai-ops-note--tour,
         .ai-ops-note--contact {
           max-width: 100%;
@@ -132,6 +134,10 @@
             anchor: document.querySelector('div[code-path="src/sections/ParallaxGallery.tsx:103:9"]'),
             method: 'beforeend'
           }),
+          ships: () => ({
+            anchor: document.querySelector('div[code-path="src/sections/ParallaxGallery.tsx:178:9"]'),
+            method: 'beforeend'
+          }),
           tour: () => ({
             anchor: document.querySelector('div[code-path="src/sections/TourSchedule.tsx:92:9"]'),
             method: 'beforeend'
@@ -146,7 +152,7 @@
           hero: 'hero',
           albums: 'albums',
           gallery: 'gallery',
-          tour: 'gallery',
+          tour: 'ships',
           contact: 'tour'
         };
 
