@@ -142,9 +142,17 @@
           })
         };
 
-        function buildNote(note) {
+        const placements = {
+          hero: 'hero',
+          albums: 'albums',
+          gallery: 'gallery',
+          tour: 'gallery',
+          contact: 'tour'
+        };
+
+        function buildNote(note, slot) {
           const section = document.createElement('div');
-          section.className = `ai-ops-note ai-ops-note--${note.key}`;
+          section.className = `ai-ops-note ai-ops-note--${slot}`;
           section.setAttribute('data-ai-note', note.key);
 
           const wrap = document.createElement('div');
@@ -173,10 +181,11 @@
             const existing = document.querySelector(`[data-ai-note="${note.key}"]`);
             if (existing) existing.remove();
 
-            const targetConfig = targets[note.key] && targets[note.key]();
+            const slot = placements[note.key] || note.key;
+            const targetConfig = targets[slot] && targets[slot]();
             if (!targetConfig || !targetConfig.anchor) return;
 
-            const noteNode = buildNote(note);
+            const noteNode = buildNote(note, slot);
             if (targetConfig.method === 'beforeend') {
               targetConfig.anchor.appendChild(noteNode);
             } else {
