@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baldr Custom — Torn Target List</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1d212b; --border:#2a2f3a;
+    --text:#e6e8ee; --muted:#8b93a5; --accent:#4f8cff; --accent2:#7c5cff;
+    --green:#3ddc84; --red:#ff5c5c; --yellow:#ffd166;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  h1{font-size:22px;font-weight:700;letter-spacing:.3px}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+  .card h2{font-size:15px;margin-bottom:14px;color:var(--text)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type=text],input[type=password]{flex:1;min-width:220px;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:8px;font-size:14px;outline:none}
+  input:focus{border-color:var(--accent)}
+  button{background:var(--accent);color:#fff;border:none;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:filter .15s}
+  button:hover{filter:brightness(1.1)}
+  button.ghost{background:var(--panel2);border:1px solid var(--border);color:var(--text)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .hint{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.5}
+  .status{font-size:13px;margin-top:10px;min-height:18px}
+  .status.err{color:var(--red)}
+  .status.ok{color:var(--green)}
+  .status.warn{color:var(--yellow)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .toolbar .spacer{flex:1}
+  .count{font-size:13px;color:var(--muted)}
+  .count b{color:var(--accent)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+  tr:hover td{background:var(--panel2)}
+  .lvl{display:inline-block;background:var(--accent2);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:12px;min-width:34px;text-align:center}
+  .tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
+  .tag.win{background:rgba(61,220,132,.15);color:var(--green)}
+  .tag.loss{background:rgba(255,92,92,.15);color:var(--red)}
+  .tag.mug{background:rgba(255,209,102,.15);color:var(--yellow)}
+  .tag.hosp{background:rgba(124,92,255,.15);color:var(--accent2)}
+  .tag.other{background:var(--panel2);color:var(--muted)}
+  .name{font-weight:600}
+  .id{color:var(--muted);font-size:11px}
+  .stat{color:var(--muted);font-size:12px}
+  .bar{height:4px;background:var(--panel2);border-radius:2px;overflow:hidden;margin-top:4px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .empty{text-align:center;color:var(--muted);padding:40px 0;font-size:14px}
+  .loading{text-align:center;color:var(--muted);padding:30px 0}
+  .spinner{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .footer{color:var(--muted);font-size:11px;text-align:center;margin-top:24px;line-height:1.6}
+  .footer a{color:var(--accent);text-decoration:none}
+  .pill{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--muted)}
+  .pill b{color:var(--text)}
+  .sortable{cursor:pointer;user-select:none}
+  .sortable:hover{color:var(--text)}
+  .sortable::after{content:'↕';opacity:.4;margin-left:4px;font-size:10px}
+  .sortable.asc::after{content:'↑';opacity:1;color:var(--accent)}
+  .sortable.desc::after{content:'↓';opacity:1;color:var(--accent)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .filters button{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:6px 12px;font-size:12px;font-weight:500}
+  .filters button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .search{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:13px;outline:none}
+  .search:focus{border-color:var(--accent)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}
+  .legend .tag{margin-right:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Baldr <span>Custom</span></h1>
+      <div class="sub">Liste de cibles Torn construite depuis <b>tes propres logs d'attaques</b> — BYO API key</div>
+    </div>
+    <span class="pill">v1.0 · <b>100% client-side</b></span>
+  </header>
+
+  <!-- API key -->
+  <div class="card" id="keyCard">
+    <h2>🔑 Ta clé API Torn</h2>
+    <div class="row">
+      <input type="password" id="apiKey" placeholder="Colle ta clé API Torn (ex: abc123...)" autocomplete="off">
+      <button id="saveKey">Enregistrer</button>
+      <button class="ghost" id="clearKey">Effacer</button>
+    </div>
+    <div class="hint">
+      La clé est stockée <b>uniquement dans ton navigateur</b> (localStorage) et envoyée directement à l'API Torn.
+      Elle n'est jamais transmise à ce site ni à aucun serveur tiers. Génère une clé avec les scopes
+      <code>Public</code> + <code>User</code> sur torn.com → API.
+    </div>
+    <div class="status" id="keyStatus"></div>
+  </div>
+
+  <!-- Controls -->
+  <div class="card" id="controlsCard" style="display:none">
+    <h2>🎯 Charger mes cibles</h2>
+    <div class="row">
+      <button id="loadBtn">Charger mes logs d'attaques</button>
+      <button class="ghost" id="loadMoreBtn" style="display:none">Charger plus (anciennes)</button>
+      <div class="spacer"></div>
+      <span class="count" id="countLabel"></span>
+    </div>
+    <div class="status" id="loadStatus"></div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="toolbar">
+      <input type="text" class="search" id="search" placeholder="Filtrer par nom ou ID...">
+      <div class="spacer"></div>
+      <button class="ghost" id="exportBtn">Exporter CSV</button>
+    </div>
+    <div class="filters" id="filters">
+      <button data-f="all" class="active">Tous</button>
+      <button data-f="win">Victoires</button>
+      <button data-f="loss">Défaites</button>
+      <button data-f="mug">Mugs</button>
+      <button data-f="hosp">Hosp</button>
+    </div>
+    <div id="tableWrap"></div>
+    <div class="legend">
+      <span><span class="tag win">Victoire</span> tu as gagné</span>
+      <span><span class="tag loss">Défaite</span> tu as perdu</span>
+      <span><span class="tag mug">Mug</span> vol</span>
+      <span><span class="tag hosp">Hosp</span> hospitalisation</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    Outil indépendant, non affilié à Torn. Les données viennent de ton compte via l'API officielle.
+    <br>Code source : <a href="https://github.com/m4rv4x/torn-target-finder" target="_blank">github.com/m4rv4x/torn-target-finder</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const LS_KEY = 'baldr_custom_api_key';
+  const API = 'https://api.torn.com/v2';
+
+  // ---- state ----
+  let targets = [];      // {id,name,level,result,count,lastSeen,stats}
+  let filter = 'all';
+  let sortKey = 'count';
+  let sortDir = -1;
+  let oldestTs = null;   // for pagination
+  let loading = false;
+
+  // ---- api key ----
+  const keyInput = $('#apiKey');
+  const saved = localStorage.getItem(LS_KEY);
+  if(saved){ keyInput.value = saved; }
+
+  $('#saveKey').addEventListener('click', () => {
+    const k = keyInput.value.trim();
+    if(!k){ setStatus('#keyStatus','Entre une clé API.', 'err'); return; }
+    localStorage.setItem(LS_KEY, k);
+    setStatus('#keyStatus','Clé enregistrée ✓', 'ok');
+    $('#keyCard').style.display='none';
+    $('#controlsCard').style.display='block';
+  });
+  $('#clearKey').addEventListener('click', () => {
+    localStorage.removeItem(LS_KEY);
+    keyInput.value='';
+    setStatus('#keyStatus','Clé effacée.', 'warn');
+  });
+  if(saved){
+    $('#keyCard').style.display='none';
+    $('#controlsCard').style.display='block';
+  }
+
+  function getKey(){ return localStorage.getItem(LS_KEY) || ''; }
+  function setStatus(sel,msg,cls){ const el=$(sel); el.textContent=msg; el.className='status'+(cls?' '+cls:''); }
+
+  // ---- fetch helpers ----
+  async function apiGet(path){
+    const key = getKey();
+    const res = await fetch(API+path, { headers:{ 'Authorization':'Bearer '+key } });
+    const data = await res.json();
+    if(data.error){ throw new Error(data.error.error + ' (code '+data.error.code+')'); }
+    return data;
+  }
+
+  // ---- load attacks ----
+  async function loadAttacks(){
+    if(loading) return;
+    loading = true;
+    setStatus('#loadStatus','<span class="spinner"></span>Chargement des logs d\'attaques...');
+    $('#loadBtn').disabled = true;
+    try{
+      let url = '/user/attacksfull?selections=attacks&limit=100';
+      if(oldestTs){ url += '&to='+oldestTs; }
+      const data = await apiGet(url);
+      const attacks = data.attacks || [];
+      if(!attacks.length){
+        setStatus('#loadStatus', oldestTs ? 'Plus d\'attaques plus anciennes.' : 'Aucune attaque trouvée.', 'warn');
+        $('#loadMoreBtn').style.display='none';
+        return;
+      }
+      // merge into targets
+      for(const a of attacks){
+        const tid = a.target_id;
+        if(!tid) continue;
+        let t = targets.find(x=>x.id===tid);
+        if(!t){
+          t = { id:tid, name:a.target_name||('#'+tid), level:a.target_level||0, result:a.result||'Unknown', count:0, lastSeen:a.timestamp_started||0, stats:null };
+          targets.push(t);
+        }
+        t.count++;
+        if(a.timestamp_started && a.timestamp_started>t.lastSeen){ t.lastSeen=a.timestamp_started; t.result=a.result||t.result; t.level=a.target_level||t.level; }
+      }
+      // track oldest for pagination
+      const ts = attacks.map(a=>a.timestamp_started).filter(Boolean);
+      if(ts.length){ oldestTs = Math.min(...ts); }
+      $('#loadMoreBtn').style.display = attacks.length>=100 ? 'inline-block' : 'none';
+      setStatus('#loadStatus','Chargé '+attacks.length+' attaques. Total cibles uniques : '+targets.length, 'ok');
+      render();
+      // enrich profiles in background
+      enrichProfiles();
+    }catch(e){
+      setStatus('#loadStatus','Erreur : '+e.message, 'err');
+    }finally{
+      loading=false;
+      $('#loadBtn').disabled=false;
+    }
+  }
+
+  // ---- enrich profiles (level + stats) ----
+  async function enrichProfiles(){
+    const missing = targets.filter(t=>!t.stats);
+    for(const t of missing){
+      try{
+        const p = await apiGet('/user/'+t.id+'?selections=profile');
+        t.stats = { level:p.level||0, strength:p.strength||0, defense:p.defense||0, speed:p.speed||0, dexterity:p.dexterity||0, total:p.total_battle_stats||0 };
+        t.level = p.level||t.level;
+      }catch(e){ /* skip */ }
+      // small delay to be gentle
+      await new Promise(r=>setTimeout(r,150));
+    }
+    render();
+  }
+
+  // ---- rendering ----
+  function fmtNum(n){ if(n==null) return '—'; if(n>=1e9) return (n/1e9).toFixed(1)+'B'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
+  function fmtDate(ts){ if(!ts) return '—'; const d=new Date(ts*1000); return d.toLocaleDateString(); }
+  function resultTag(r){
+    r=(r||'').toLowerCase();
+    if(r==='attacked'||r==='mugged'||r==='hospitalized') return '<span class="tag win">Victoire</span>';
+    if(r==='lost'||r==='escape'||r==='stalemate') return '<span class="tag loss">Défaite</span>';
+    if(r==='mug') return '<span class="tag mug">Mug</span>';
+    if(r==='hospitalize') return '<span class="tag hosp">Hosp</span>';
+    return '<span class="tag other">'+r+'</span>';
+  }
+  function matchesFilter(t){
+    if(filter==='all') return true;
+    const r=(t.result||'').toLowerCase();
+    if(filter==='win') return ['attacked','mugged','hospitalized'].includes(r);
+    if(filter==='loss') return ['lost','escape','stalemate'].includes(r);
+    if(filter==='mug') return r==='mug'||r==='mugged';
+    if(filter==='hosp') return r==='hospitalize'||r==='hospitalized';
+    return true;
+  }
+  function render(){
+    const q = ($('#search').value||'').toLowerCase();
+    let list = targets.filter(t=>matchesFilter(t) && (!q || t.name.toLowerCase().includes(q) || String(t.id).includes(q)));
+    list.sort((a,b)=>{
+      let va=a[sortKey], vb=b[sortKey];
+      if(sortKey==='name'){ va=a.name.toLowerCase(); vb=b.name.toLowerCase(); }
+      if(va==null) va=0; if(vb==null) vb=0;
+      if(va<vb) return -1*sortDir; if(va>vb) return 1*sortDir; return 0;
+    });
+    $('#countLabel').innerHTML = '<b>'+list.length+'</b> cibles affichées / '+targets.length+' total';
+    const wrap = $('#tableWrap');
+    if(!list.length){
+      wrap.innerHTML = '<div class="empty">Aucune cible. Clique sur « Charger mes logs d\'attaques ».</div>';
+      return;
+    }
+    let html = '<table><thead><tr>'
+      +'<th class="sortable" data-k="name">Cible</th>'
+      +'<th class="sortable" data-k="level">Niv</th>'
+      +'<th class="sortable" data-k="count">Attaques</th>'
+      +'<th class="sortable" data-k="result">Résultat</th>'
+      +'<th class="sortable" data-k="lastSeen">Dernier</th>'
+      +'<th>Stats totales</th>'
+      +'</tr></thead><tbody>';
+    for(const t of list){
+      const total = t.stats?t.stats.total:null;
+      const max = Math.max(...targets.map(x=>x.stats?x.stats.total:0),1);
+      const pct = total? Math.round(total/max*100):0;
+      html += '<tr>'
+        +'<td><span class="name">'+esc(t.name)+'</span> <span class="id">#'+t.id+'</span></td>'
+        +'<td><span class="lvl">'+t.level+'</span></td>'
+        +'<td>'+t.count+'</td>'
+        +'<td>'+resultTag(t.result)+'</td>'
+        +'<td class="stat">'+fmtDate(t.lastSeen)+'</td>'
+        +'<td class="stat">'+(total?fmtNum(total):'<span class="stat">…</span>')+'<div class="bar"><i style="width:'+pct+'%"></i></div></td>'
+        +'</tr>';
+    }
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+    // bind sort
+    wrap.querySelectorAll('.sortable').forEach(th=>{
+      th.addEventListener('click', ()=>{
+        const k=th.dataset.k;
+        if(sortKey===k){ sortDir*=-1; } else { sortKey=k; sortDir=-1; }
+        render();
+      });
+    });
+    // update sort indicators
+    wrap.querySelectorAll('.sortable').forEach(th=>{
+      th.classList.remove('asc','desc');
+      if(th.dataset.k===sortKey) th.classList.add(sortDir>0?'asc':'desc');
+    });
+  }
+  function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // ---- events ----
+  $('#loadBtn').addEventListener('click', loadAttacks);
+  $('#loadMoreBtn').addEventListener('click', loadAttacks);
+  $('#search').addEventListener('input', render);
+  $('#filters').addEventListener('click', e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    filter=b.dataset.f;
+    $('#filters').querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    render();
+  });
+  $('#exportBtn').addEventListener('click', ()=>{
+    let csv='name,id,level,attacks,result,last_seen,total_stats\n';
+    for(const t of targets){
+      csv += '"'+t.name.replace(/"/g,'""')+'",'+t.id+','+t.level+','+t.count+','+t.result+','+fmtDate(t.lastSeen)+','+(t.stats?t.stats.total:'')+'\n';
+    }
+    const blob=new Blob([csv],{type:'text/csv'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='baldr-custom-targets.csv'; a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // auto-load if key present
+  if(saved){ loadAttacks(); }
+})();
+</script>
+</body>
+</html>
